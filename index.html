@@ -28,7 +28,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex items-center justify-between">
             <div>
                 <h1 class="text-2xl font-bold text-slate-800">Kalkulator Mehanskih Pogonov</h1>
-                <p class="text-slate-500 text-sm mt-1">Hiter in zanesljiv preračun kinematike, navora in prenosov moči.</p>
+                <p class="text-slate-500 text-sm mt-1">Hiter in zanesljiv preračun kinematike, navora in prenosov moči za industrijsko avtomatizacijo.</p>
             </div>
             <div class="hidden md:block">
                 <svg class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -55,7 +55,6 @@
         
         <!-- 1. Zobniški prenos -->
         <div id="tab-gears" class="fade-in space-y-6">
-            <!-- Opis -->
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                 <h3 class="text-base font-semibold text-slate-800 mb-1">Zobniški prenos</h3>
                 <p class="text-sm text-slate-600 leading-relaxed">
@@ -101,7 +100,6 @@
 
         <!-- 2. Moč in Navor -->
         <div id="tab-power" class="hidden space-y-6">
-            <!-- Opis -->
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                 <h3 class="text-base font-semibold text-slate-800 mb-1">Preračun navora motorja</h3>
                 <p class="text-sm text-slate-600 leading-relaxed">
@@ -112,10 +110,39 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                     <h2 class="text-lg font-semibold text-slate-700 mb-4 border-b pb-2">Vhodni parametri motorja</h2>
+                    
+                    <!-- Razširjeni nabor hitrih izbir standardnih motorjev -->
+                    <div class="mb-5 space-y-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Standardni industrijski motorji (4-polni ~1450 RPM):</label>
+                            <div class="flex flex-wrap gap-1.5">
+                                <button type="button" onclick="setMotor(0.37, 1380)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition">0.37 kW</button>
+                                <button type="button" onclick="setMotor(0.75, 1410)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition">0.75 kW</button>
+                                <button type="button" onclick="setMotor(1.5, 1420)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition">1.5 kW</button>
+                                <button type="button" onclick="setMotor(2.2, 1430)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition">2.2 kW</button>
+                                <button type="button" onclick="setMotor(3.0, 1450)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition">3.0 kW</button>
+                                <button type="button" onclick="setMotor(4.0, 1440)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition">4.0 kW</button>
+                                <button type="button" onclick="setMotor(5.5, 1450)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition">5.5 kW</button>
+                                <button type="button" onclick="setMotor(7.5, 1460)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition">7.5 kW</button>
+                                <button type="button" onclick="setMotor(11.0, 1470)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition">11 kW</button>
+                                <button type="button" onclick="setMotor(15.0, 1470)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition">15 kW</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-amber-600 uppercase tracking-wider mb-1.5">Servomotorji in hitri pogoni:</label>
+                            <div class="flex flex-wrap gap-1.5">
+                                <button type="button" onclick="setMotor(0.4, 3000)" class="text-xs bg-amber-50 hover:bg-amber-100 text-amber-800 px-2.5 py-1 rounded border border-amber-200 transition">0.4 kW (3000 RPM)</button>
+                                <button type="button" onclick="setMotor(0.75, 3000)" class="text-xs bg-amber-50 hover:bg-amber-100 text-amber-800 px-2.5 py-1 rounded border border-amber-200 transition">0.75 kW (3000 RPM)</button>
+                                <button type="button" onclick="setMotor(1.0, 3000)" class="text-xs bg-amber-50 hover:bg-amber-100 text-amber-800 px-2.5 py-1 rounded border border-amber-200 transition">1.0 kW (3000 RPM)</button>
+                                <button type="button" onclick="setMotor(2.0, 2500)" class="text-xs bg-amber-50 hover:bg-amber-100 text-amber-800 px-2.5 py-1 rounded border border-amber-200 transition">2.0 kW (2500 RPM)</button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-1">Moč (P) [kW]</label>
-                            <input type="number" id="p-power" value="5,5" min="0" step="0,1" class="w-full rounded-md border-slate-300 border p-2.5 focus:ring-2 focus:ring-amber-500 outline-none transition-all calc-trigger">
+                            <input type="number" id="p-power" value="3,0" min="0" step="0.1" class="w-full rounded-md border-slate-300 border p-2.5 focus:ring-2 focus:ring-amber-500 outline-none transition-all calc-trigger">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-1">Vrtljaji (n) [min<sup>-1</sup>]</label>
@@ -123,13 +150,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-col">
-                    <div class="bg-amber-50 rounded-xl shadow-sm border border-amber-200 p-6 flex flex-col justify-center h-full">
+
+                <div class="flex flex-col space-y-6">
+                    <div class="bg-amber-50 rounded-xl shadow-sm border border-amber-200 p-6 flex flex-col justify-center flex-1">
                         <h3 class="text-sm font-bold text-amber-600 uppercase tracking-wider mb-4">Izhodni Navor</h3>
                         <div class="bg-white p-6 rounded-lg shadow-sm border border-amber-100 text-center">
                             <div class="text-sm text-slate-500 mb-2">Izračunan navor (M)</div>
                             <div class="text-4xl font-bold text-amber-600"><span id="p-res-m">-</span> <span class="text-xl font-normal text-slate-400">Nm</span></div>
                         </div>
+                    </div>
+
+                    <!-- Praktični primer opis -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 text-xs text-slate-600 space-y-1">
+                        <span class="font-semibold text-slate-700 block">💡 Praktični namig:</span>
+                        <p>• <strong>Asihroni motorji</strong> so zanesljiva in stroškovno učinkovita izbira za pogon trakov, dvigal in mešalnikov.</p>
+                        <p>• <strong>Servomotorji</strong> dosegajo višje obrate in se uporabljajo tam, kjer so ključni dinamični pospeški, hitro ustavljanje in visoka točnost pozicioniranja v avtomatizaciji.</p>
                     </div>
                 </div>
             </div>
@@ -137,7 +172,6 @@
 
         <!-- 3. Jermenski / Verižni pogon -->
         <div id="tab-belts" class="hidden space-y-6">
-            <!-- Opis -->
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                 <h3 class="text-base font-semibold text-slate-800 mb-1">Jermenski ali verižni prenos</h3>
                 <p class="text-sm text-slate-600 leading-relaxed">
@@ -159,11 +193,11 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-1">Vhodna moč (P<sub>1</sub>) [kW]</label>
-                            <input type="number" id="b-p1" value="3" min="0" step="0,1" class="w-full rounded-md border-slate-300 border p-2.5 focus:ring-2 focus:ring-emerald-500 outline-none transition-all calc-trigger">
+                            <input type="number" id="b-p1" value="3" min="0" step="0.1" class="w-full rounded-md border-slate-300 border p-2.5 focus:ring-2 focus:ring-emerald-500 outline-none transition-all calc-trigger">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-1">Vhodni vrtljaji (n<sub>1</sub>) [min<sup>-1</sup>]</label>
-                            <input type="number" id="b-n1" value="2800" min="1" class="w-full rounded-md border-slate-300 border p-2.5 focus:ring-2 focus:ring-emerald-500 outline-none transition-all calc-trigger">
+                            <input type="number" id="b-n1" value="1450" min="1" class="w-full rounded-md border-slate-300 border p-2.5 focus:ring-2 focus:ring-emerald-500 outline-none transition-all calc-trigger">
                         </div>
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-slate-700 mb-1">Mehanski izkoristek pogona (η) [%]</label>
@@ -250,6 +284,13 @@
         function getVal(id) {
             const rawVal = document.getElementById(id).value;
             return parseSloFloat(rawVal);
+        }
+
+        function setMotor(powerKW, rpm) {
+            // Uporabimo piko za JavaScript zapis, ki ga input type="number" pravilno sprejme
+            document.getElementById('p-power').value = powerKW;
+            document.getElementById('p-n').value = rpm;
+            calculatePower();
         }
 
         function calculateGears() {

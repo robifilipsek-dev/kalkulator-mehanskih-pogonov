@@ -1,526 +1,602 @@
-<!DOCTYPE html>
-<html lang="sl" class="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inženirski Kalkulator Pogonskih Sklopov — RF Digital</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            orange: '#f97316',
-                            amber: '#d97706',
-                            cyan: '#06b6d4',
-                            emerald: '#10b981'
-                        }
-                    }
-                }
-            }
+<!doctype html><html lang="sl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f3f5f7"><meta name="application-name" content="Pogoni"><meta name="apple-mobile-web-app-title" content="Pogoni"><meta name="description" content="Projektantski kalkulator zobniških, jermenskih, verižnih in servopogonskih sklopov."><title>Pogoni — inženirski kalkulator</title><link id="favicon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22180%22%20height%3D%22180%22%20viewBox%3D%220%200%20180%20180%22%3E%3Crect%20width%3D%22180%22%20height%3D%22180%22%20rx%3D%2234%22%20fill%3D%22%23172632%22%2F%3E%3Cpath%20d%3D%22M73%2031h34l6%2017%2015%206%2017%2031-8%2031-20%208-10%2025H73l-10-25-20-8-8-31%2017-31%2015-6%206-17Z%22%20fill%3D%22none%22%20stroke%3D%22%23ff955c%22%20stroke-width%3D%229%22%2F%3E%3Ccircle%20cx%3D%2290%22%20cy%3D%2289%22%20r%3D%2224%22%20fill%3D%22none%22%20stroke%3D%22%23e3edf5%22%20stroke-width%3D%2210%22%2F%3E%3C%2Fsvg%3E" rel="icon" type="image/svg+xml"><link id="touch-icon" href="data:image/png;base64,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" rel="apple-touch-icon" sizes="180x180"><style>:root{color-scheme:light;--bg:#f3f5f7;--surface:#fff;--surface2:#f8fafb;--ink:#1e2c3b;--muted:#637386;--line:#dce3e9;--brand:#ce5519;--brand-soft:#fff0e7;--teal:#147c80;--teal-soft:#eaf6f4;--red:#b32d3b;--red-soft:#fff0f1;--amber:#895a14;--amber-soft:#fff6e5;--sidebar:#172632;--shadow:0 5px 24px #182b3c07;--plot:#e8edf1}html[data-theme=dark]{color-scheme:dark;--bg:#0e1720;--surface:#17232f;--surface2:#1c2a37;--ink:#e8eef5;--muted:#a8b9c9;--line:#314352;--brand:#ff9b61;--brand-soft:#362a26;--teal:#6dd3ce;--teal-soft:#193a3b;--red:#ffabb4;--red-soft:#40232c;--amber:#f4cd86;--amber-soft:#362f23;--sidebar:#0a121a;--shadow:none;--plot:#2b3c49}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 'Segoe UI',system-ui,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}a{color:var(--teal);text-underline-offset:3px}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--teal);outline-offset:3px}svg.icon{width:20px;height:20px;flex-shrink:0;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}button .icon{width:17px;height:17px}.sidebar{width:234px;position:fixed;inset:0 auto 0 0;background:var(--sidebar);color:#e3edf5;display:flex;flex-direction:column;padding:28px 18px;z-index:10}.brand{display:flex;align-items:center;gap:11px;padding:0 9px 29px}.brand-symbol{background:#ff955c;color:#162632;border-radius:11px;padding:9px;display:flex}.brand-symbol .icon{width:27px;height:27px}.brand-name{font-size:21px;font-weight:750;letter-spacing:-.7px}.brand small{display:block;color:#9eb3c4;font-size:11px;letter-spacing:1px}.nav-caption{font-size:10px;font-weight:700;letter-spacing:1.5px;color:#91a7b8;margin:12px 12px}.nav-btn{width:100%;display:flex;align-items:center;text-align:left;gap:11px;min-height:64px;border:0;background:none;color:#b8cbd9;padding:10px 12px;margin:3px 0;border-radius:9px}.nav-btn b{display:block;font-size:13px;font-weight:650}.nav-btn small{display:block;font-size:10px;opacity:.8;margin-top:2px}.nav-btn:hover{background:#ffffff08}.nav-btn[aria-selected=true]{background:#293a46;color:#ffb48a;box-shadow:inset 3px 0 #ff955c}.sidebar-bottom{margin-top:auto;font-size:11px;padding:24px 12px 0;color:#9eb3c4}.offline-dot{display:inline-block;width:6px;height:6px;border-radius:10px;background:#6cceb0;margin-right:7px}.app{margin-left:234px}.topbar{min-height:76px;padding:16px 34px;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}.crumb{color:var(--muted);font-size:12px}.crumb b{color:var(--ink);font-weight:600}.top-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:9px 13px;min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:600;font-size:12px;white-space:nowrap}.btn:hover{border-color:var(--muted);background:var(--surface2)}.btn-primary{background:var(--brand);border-color:var(--brand);color:#fff}html[data-theme=dark] .btn-primary{color:#201a16}.btn-primary:hover{background:var(--brand);filter:brightness(1.08)}.btn-quiet{background:transparent;border-color:transparent;color:var(--muted)}.select-compact{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:9px;color:var(--ink);font-size:12px;min-height:40px}main{max-width:1510px;margin:auto;padding:28px 34px 38px}.project-row{display:grid;grid-template-columns:1.5fr 1fr .6fr auto;gap:13px;align-items:end;margin-bottom:28px}.project-row label{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)}.project-row input{padding:8px 10px;min-height:37px;font-size:12px;background:var(--surface)}input,select,textarea{width:100%;min-width:0;border:1px solid var(--line);border-radius:7px;background:var(--surface2);color:var(--ink);padding:10px 11px;min-height:43px}input::placeholder,textarea::placeholder{color:var(--muted);opacity:.75}input:disabled{opacity:.55}label{display:block;font-size:12px;font-weight:600}label>input,label>select,label>textarea{margin-top:6px}label .unit{color:var(--muted);font-weight:400}.field small,.hint{display:block;color:var(--muted);font-size:11px;font-weight:400;margin-top:5px;line-height:1.5}.field .error{color:var(--red);min-height:0}.field.invalid input{border-color:var(--red);background:var(--red-soft)}.field{min-width:0}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.full{grid-column:1/-1}.section-heading{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:22px}h1{font-size:28px;line-height:1.25;font-weight:720;letter-spacing:-.8px;margin:0 0 7px}h2{font-size:15px;font-weight:700;margin:0}h3{font-size:12px;margin:0 0 10px;font-weight:700}.section-heading p{margin:0;color:var(--muted);font-size:12px;max-width:680px}.section-actions{display:flex;gap:4px}.pill{font-size:10px;font-weight:650;display:inline-flex;align-items:center;gap:5px;border-radius:5px;padding:4px 7px;color:var(--muted);background:var(--surface2);border:1px solid var(--line)}.pill.warn{background:var(--amber-soft);border-color:transparent;color:var(--amber)}.pill.ok{background:var(--teal-soft);color:var(--teal);border-color:transparent}.workspace{display:grid;grid-template-columns:minmax(300px,.86fr) minmax(340px,1.14fr);gap:21px;align-items:start}.stack{display:flex;flex-direction:column;gap:18px}.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}.card-head{padding:18px 20px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}.step-title{display:flex;align-items:center;gap:8px}.step-num{border:1px solid var(--line);color:var(--muted);display:inline-flex;align-items:center;justify-content:center;width:23px;height:23px;border-radius:6px;font-size:11px}.card-body{padding:0 20px 20px}.card-body>p:first-child{margin-top:0}.card-note{font-size:11px;color:var(--muted);padding:11px 20px;border-top:1px solid var(--line);background:var(--surface2)}.segment{display:flex;border:1px solid var(--line);padding:3px;border-radius:8px;background:var(--surface2);gap:3px;margin-bottom:16px}.segment button{flex:1;border:0;border-radius:5px;min-height:32px;background:transparent;color:var(--muted);font-size:11px;font-weight:600;padding:5px}.segment button[aria-pressed=true]{background:var(--surface);color:var(--ink);box-shadow:0 1px 5px #0000000b}.inline-note{font-size:11px;color:var(--muted);margin:10px 0 0;line-height:1.55}.notice{display:flex;gap:8px;padding:11px 13px;border-radius:7px;background:var(--amber-soft);color:var(--amber);font-size:11px;line-height:1.6}.notice .icon{width:16px;height:16px;margin-top:1px}.notice.neutral{background:var(--surface2);color:var(--muted)}.notice.info{background:var(--teal-soft);color:var(--teal)}.result-card{border-top:3px solid var(--brand)}.result-main{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding:6px 22px 20px}.result-label{font-size:11px;color:var(--muted);margin-bottom:3px}.big-number{font-size:52px;font-weight:750;line-height:1.1;letter-spacing:-2px;font-variant-numeric:tabular-nums}.big-number .u{font-size:18px;letter-spacing:0;font-weight:500;color:var(--muted);margin-left:6px}.result-aside{text-align:right}.result-aside .value{font-size:23px;font-weight:700;letter-spacing:-.5px;font-variant-numeric:tabular-nums}.result-aside small{font-size:10px;color:var(--muted)}.metrics{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);background:var(--surface2)}.metric{padding:12px 18px;border-right:1px solid var(--line)}.metric:last-child{border:0}.metric small{font-size:10px;color:var(--muted);display:block}.metric b{font-size:16px;font-weight:650;font-variant-numeric:tabular-nums}.verdict{padding:12px 20px;border-top:1px solid var(--line);font-size:12px;background:var(--surface2);display:flex;gap:8px;align-items:flex-start}.verdict.good{background:var(--teal-soft);color:var(--teal)}.verdict.bad{background:var(--red-soft);color:var(--red)}.verdict.warn{background:var(--amber-soft);color:var(--amber)}.verdict .icon{width:17px;height:17px;margin-top:1px}.diagram{padding:3px 10px;background:var(--surface)}.diagram svg{width:100%;height:auto;display:block;color:var(--ink);font-family:'Segoe UI',system-ui,sans-serif}.diagram .floor{stroke:var(--line);stroke-width:2}.diagram .structure{fill:var(--plot);stroke:var(--muted);stroke-width:1.5}.diagram .beam{stroke:var(--teal);stroke-width:3;stroke-dasharray:5 5}.diagram .hazard{fill:var(--red-soft);stroke:var(--red);stroke-width:1.5}.diagram .dimension{stroke:var(--brand);stroke-width:1.3;fill:none}.diagram .measure{fill:var(--brand);font-size:12px;font-weight:700}.diagram .caption{fill:var(--muted);font-size:10px}.diagram .body-line{stroke:var(--muted);stroke-width:2;fill:none;stroke-linecap:round}.diagram .material{fill:var(--teal-soft);stroke:var(--teal);stroke-width:1.3}.diagram-foot{display:flex;justify-content:space-between;padding:0 20px 13px;color:var(--muted);font-size:10px}.formula{font:12px/1.8 ui-monospace,Consolas,monospace;background:var(--surface2);border:1px solid var(--line);border-radius:7px;padding:12px;overflow-wrap:anywhere;margin-bottom:12px}.steps{list-style:none;margin:0;padding:0}.steps li{display:flex;justify-content:space-between;gap:12px;font-size:11px;padding:7px 0;border-bottom:1px solid var(--line)}.steps li:last-child{border:0}.steps span{color:var(--muted)}.steps b{font-weight:600;text-align:right;font-variant-numeric:tabular-nums}.check{display:flex;gap:9px;align-items:flex-start;font-size:11px;font-weight:400;margin:12px 0;cursor:pointer}.check input{width:15px;height:15px;min-height:0;margin:2px 0 0;accent-color:var(--teal);flex-shrink:0}.check b{font-weight:650}.details-head{padding:15px 20px;cursor:pointer;font-size:12px;font-weight:650;display:list-item}.details-head::marker{color:var(--muted)}details.card .card-body{padding-top:6px}.doc-status{color:var(--muted);font-size:11px;padding-top:9px;border-top:1px solid var(--line)}.bottom-note{display:flex;align-items:center;gap:8px;font-size:11px;line-height:1.6;color:var(--muted);margin-top:24px}.bottom-note .icon{width:16px;height:16px;flex-shrink:0}.table-scroll{overflow:auto}table{border-collapse:collapse;width:100%;font-size:11px}th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;font-variant-numeric:tabular-nums}th{font-weight:600;color:var(--muted);background:var(--surface2)}tr.selected{background:var(--brand-soft);color:var(--brand)}.table-note{font-size:10px;color:var(--muted);margin-top:10px}.empty-text{font-size:12px;color:var(--muted);padding:0 22px 20px}.strip{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.toolbar-group{display:flex;gap:7px;flex-wrap:wrap}.time-range{font-size:26px;font-weight:700;letter-spacing:-.6px}.timeline-row{margin-top:14px}.timeline-title{display:flex;justify-content:space-between;font-size:11px}.timeline-title span{color:var(--muted)}.track{height:5px;border-radius:5px;background:var(--plot);margin-top:6px;overflow:hidden}.track>i{display:block;background:var(--teal);height:100%;min-width:3px}.help-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.help-grid p{font-size:12px;color:var(--muted)}.source-list{padding-left:18px;color:var(--muted);font-size:12px}.source-list li{margin:10px 0}.toast{position:fixed;bottom:22px;left:calc(50% + 117px);transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:11px 18px;border-radius:9px;z-index:50;box-shadow:0 8px 30px #0003;max-width:calc(100% - 30px);font-size:12px}.toast:empty{display:none}[hidden]{display:none!important}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}dialog{border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);max-width:880px;width:calc(100% - 32px);max-height:90vh;padding:24px}dialog::backdrop{background:#0b1c2b88;backdrop-filter:blur(3px)}.dialog-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.report-content{font-size:12px}.report-content h1{font-size:24px}.report-content h2{font-size:17px;margin:24px 0 9px}.report-content p{white-space:pre-wrap;overflow-wrap:anywhere}.report-content th{min-width:150px}.report-content td{overflow-wrap:anywhere}.report-content .report-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.report-content .report-status{background:var(--surface2);padding:10px;border:1px solid var(--line)}#print-report{display:none}.storage-label{margin:0;font-size:10px;white-space:nowrap}.source-tag{color:var(--muted);font-size:10px}.mode-info{margin-bottom:14px}.muting-type{font-size:10px;color:var(--muted)}.section-hidden{display:none}footer{display:flex;justify-content:space-between;gap:12px;font-size:10px;color:var(--muted);margin-top:28px;border-top:1px solid var(--line);padding-top:14px}@media(min-width:1500px){main{padding:34px 42px}.topbar{padding-left:42px;padding-right:42px}}@media(max-width:1120px){.sidebar{width:200px;padding-left:12px;padding-right:12px}.app{margin-left:200px}.topbar{padding:14px 22px}main{padding:24px 22px}.workspace{grid-template-columns:minmax(280px,.95fr) minmax(300px,1.05fr);gap:15px}.card-body{padding-left:16px;padding-right:16px}.card-head{padding-left:16px;padding-right:16px}.topbar .crumb{display:none}.project-row{grid-template-columns:1.3fr 1fr .6fr}.project-row>.storage-label{grid-column:1/-1}.toast{left:calc(50% + 100px)}.big-number{font-size:44px}.metric{padding:12px}.section-actions{flex-wrap:wrap;justify-content:flex-end}}@media(max-width:900px){.sidebar{width:74px;padding:20px 8px}.brand{padding:0 6px 22px}.brand>div:last-child,.nav-caption,.nav-btn>span,.sidebar-bottom{display:none}.nav-btn{justify-content:center;min-height:50px;padding:10px}.nav-btn>.icon{width:23px;height:23px}.brand-symbol{padding:8px;border-radius:10px}.brand-symbol .icon{width:23px;height:23px}.app{margin-left:74px}.toast{left:calc(50% + 37px)}}@media(max-width:730px){.sidebar{position:static;width:auto;padding:12px 14px;display:block}.brand{padding:0 0 12px;gap:8px}.brand>div:last-child{display:block}.brand-name{font-size:17px}.brand small{font-size:9px}.brand-symbol{padding:5px}.brand-symbol .icon{width:20px;height:20px}.sidebar nav{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}.nav-btn{min-height:48px;margin:0;padding:7px 3px;flex-direction:column;gap:2px;border-radius:7px}.nav-btn>span{display:block;text-align:center}.nav-btn b{font-size:10px;line-height:1.3}.nav-btn small{display:none}.nav-btn>.icon{width:17px;height:17px}.nav-btn[aria-selected=true]{box-shadow:inset 0 -2px #ff955c}.app{margin:0}.topbar{min-height:0;padding:10px 14px}.top-actions{gap:5px;width:100%}.topbar .btn{padding:7px 9px;font-size:11px;min-height:36px}.topbar .select-compact{margin-left:auto;min-height:36px;padding:7px;font-size:11px}.topbar .save-html{display:none}main{padding:19px 14px}.project-row{gap:9px;margin-bottom:23px;grid-template-columns:1fr 1fr}.project-row label:first-child{grid-column:1/-1}.project-row>.storage-label{grid-column:auto;white-space:normal;align-self:center}.workspace{grid-template-columns:1fr;gap:16px}.section-heading{gap:10px;margin-bottom:18px}h1{font-size:25px}.section-heading p{font-size:11px}.section-actions{gap:0}.section-actions .btn{font-size:10px;min-height:34px;padding:5px 8px}.section-actions .btn .icon{width:13px;height:13px}.stack{gap:14px}.card-head{padding-top:16px}h2{font-size:14px}.big-number{font-size:48px}.help-grid{grid-template-columns:1fr}.toast{left:50%;width:max-content}.bottom-note{align-items:flex-start}footer{display:block}.report-content .report-grid{grid-template-columns:1fr}}@media(max-width:360px){.fields{grid-template-columns:1fr}.full{grid-column:auto}.section-heading{display:block}.section-actions{justify-content:flex-start;margin-top:10px}.top-actions{gap:4px}.topbar .btn{font-size:10px;padding:7px}.metric{padding:9px}.metric b{font-size:14px}.nav-btn b{font-size:9px}}@media print{@page{size:A4;margin:15mm}body{background:white!important;color:#172632!important;font:10pt/1.5 Arial,sans-serif}.sidebar,.app,.toast,dialog{display:none!important}#print-report{display:block!important}#print-report h1{font-size:22pt}#print-report h2{font-size:14pt;break-after:avoid;margin-top:20pt}#print-report section{break-inside:auto}#print-report table{font-size:9pt;width:100%;table-layout:fixed}#print-report th{width:42%;min-width:0}#print-report th,#print-report td{padding:5pt;border-bottom:1px solid #ccc;background:white;color:#172632;overflow-wrap:anywhere}#print-report p{white-space:pre-wrap;overflow-wrap:anywhere}#print-report tr{break-inside:avoid}#print-report .report-status{border:1px solid #bbb;background:#f7f7f7;padding:8pt}#print-report a{color:#174852}#print-report .report-grid{display:block}}
+.top-actions>.select-compact{width:auto;flex:0 0 auto}.top-actions{flex-wrap:nowrap}.report-content a{overflow-wrap:anywhere}
+@media(max-width:730px){.top-actions{flex-wrap:wrap}.top-actions>.select-compact{margin-left:0}.top-actions>.btn:last-child{margin-left:auto}}
+@media(max-width:730px){.workspace{display:flex;flex-direction:column;align-items:stretch}.workspace>.stack{display:contents}.workspace .result-card{order:-1}}
+.theme-switch{display:inline-flex;flex-shrink:0;padding:3px;gap:2px;border:1px solid var(--line);border-radius:9px;background:var(--surface2)}.theme-switch button{display:flex;align-items:center;justify-content:center;width:34px;height:32px;border:0;border-radius:6px;background:transparent;color:var(--muted)}.theme-switch button:hover{color:var(--ink)}.theme-switch button[aria-pressed=true]{background:var(--surface);color:var(--brand);box-shadow:0 1px 4px #00000012}.theme-switch .icon{width:18px;height:18px}.body-access{padding:12px 20px;border-top:1px solid var(--line);background:var(--surface2)}.body-access-item+.body-access-item{margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}.body-access-item>span{display:block;font-size:9px;letter-spacing:.5px;color:var(--muted)}.body-access-item>b{display:block;font-size:13px;margin-top:3px;font-weight:650}.body-access-item>p{font-size:11px;color:var(--muted);margin:3px 0 0}.body-access-note{font-size:10px;color:var(--muted);margin:10px 0 0;line-height:1.5}.access-table th:first-child,.access-table td:first-child{white-space:nowrap}.access-table td:nth-child(2){min-width:110px}.access-table th small{display:block;font-size:9px;font-weight:400}.diagram .diagram-title{font-size:11px;font-weight:600;fill:var(--ink)}.diagram .open-label{font-size:10px;font-weight:700;fill:var(--teal);letter-spacing:.6px}.diagram .entry-arrow{fill:none;stroke:var(--teal);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.diagram .inlet-plane{fill:none;stroke:var(--brand);stroke-width:1.5;stroke-dasharray:3 5}.diagram .leader{fill:none;stroke:var(--muted);stroke-width:1}.diagram .caption{font-size:10px}
+@media(max-width:730px){.theme-switch{margin-left:auto}.top-actions>.btn:last-child{margin-left:0}.theme-switch button{width:29px;height:28px}.body-access{padding:12px 16px}}
+.diagram-pair{display:grid;grid-template-columns:190fr 350fr;align-items:center}.diagram-pair>svg{min-width:0}@media(max-width:730px){.diagram-pair{grid-template-columns:1fr}.diagram-pair>svg:first-child{max-width:220px;margin:auto}.diagram-pair>svg:last-child{max-width:520px;margin:auto}.diagram-pair .caption{font-size:12px}.diagram-pair .diagram-title{font-size:13px}.diagram-pair .measure{font-size:14px}.diagram-pair .open-label{font-size:12px}}
+.diagram .robot-base{fill:var(--muted);stroke:var(--ink);stroke-width:1.2}.diagram .robot-shell{fill:none;stroke:var(--ink);stroke-width:16;stroke-linecap:round;stroke-linejoin:round}.diagram .robot-arm{fill:none;stroke:var(--brand);stroke-width:12;stroke-linecap:round;stroke-linejoin:round}.diagram .robot-shell.robot-wrist{stroke-width:12}.diagram .robot-arm.robot-wrist{stroke-width:8}.diagram .robot-joint{fill:var(--surface2);stroke:var(--ink);stroke-width:1.6}.diagram .robot-pivot{fill:var(--brand);stroke:var(--ink);stroke-width:.8}.diagram .robot-tool{fill:var(--muted);stroke:var(--ink);stroke-width:1.1}.diagram .robot-gripper{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}.diagram .robot-detail{fill:none;stroke:var(--surface);stroke-width:1;opacity:.8}.formula-readable{font-family:inherit;line-height:1.8}.notation-list{list-style:none;padding:0;margin:14px 0}.notation-list li{display:grid;grid-template-columns:45px 1fr;gap:10px;padding:6px 0;border-bottom:1px solid var(--line);font-size:11px}.notation-list li:last-child{border:0}.notation-list span{color:var(--muted)}.standard-formula{font-size:14px}.standard-formula sub,.notation-list sub{font-size:.7em;line-height:0}
+
+.drive-workspace{display:grid;grid-template-columns:minmax(300px,.88fr) minmax(340px,1.12fr);gap:20px;align-items:start}.drive-workspace>.stack{min-width:0}.drive-workspace .card{min-width:0}.drive-kpis{display:grid;grid-template-columns:1fr 1fr;border-top:3px solid var(--brand)}.drive-kpi{padding:18px 20px;border-bottom:1px solid var(--line)}.drive-kpi:nth-child(odd){border-right:1px solid var(--line)}.drive-kpi:nth-last-child(-n+2){border-bottom:0}.drive-kpi small{display:block;color:var(--muted);font-size:10px}.drive-kpi .number{font-size:30px;font-weight:750;letter-spacing:-.7px;line-height:1.4;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.drive-kpi .number .unit{font-size:12px;font-weight:500;letter-spacing:0;color:var(--muted);margin-left:6px}.drive-kpi .kpi-hint{font-size:10px;color:var(--muted);margin-top:3px;min-height:15px}.drive-drawing{padding:4px 10px}.drive-drawing svg{display:block;width:100%;height:auto}.calc-message{padding:12px 18px;font-size:11px;line-height:1.6;border-top:1px solid var(--line);color:var(--muted)}.calc-message.bad{color:var(--red);background:var(--red-soft)}.calc-message.warn{color:var(--amber);background:var(--amber-soft)}.calc-message:empty{display:none}.calc-pairs{list-style:none;margin:0;padding:0}.calc-pairs li{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px solid var(--line);font-size:11px}.calc-pairs li:last-child{border:0}.calc-pairs span{color:var(--muted)}.calc-pairs b{font-weight:600;text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.input-info{font-size:11px;margin:12px 0 0;color:var(--muted)}.quick-powers{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}.quick-powers button{border:1px solid var(--line);border-radius:6px;padding:5px 9px;color:var(--muted);background:var(--surface2);font-size:11px;min-height:31px}.quick-powers button:hover{border-color:var(--brand);color:var(--brand)}.export-card{margin-top:22px}.export-details{margin-top:16px}.export-details>summary{font-size:12px;cursor:pointer;color:var(--muted)}.export-details textarea{margin-top:10px;font:11px/1.7 ui-monospace,monospace}.servo-list{margin-top:17px}.servo-row{border:1px solid var(--line);border-radius:8px;padding:11px;margin:9px 0;background:var(--surface);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}.servo-row.editing{border-color:var(--brand);background:var(--brand-soft)}.servo-row b{font-size:12px;font-weight:650;overflow-wrap:anywhere}.servo-row small{font-size:10px;color:var(--muted);display:block}.servo-values{font-size:11px;font-variant-numeric:tabular-nums;text-align:right}.servo-actions{display:flex;gap:3px;grid-column:1/-1;justify-content:flex-end}.icon-btn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:0;border-radius:5px;background:transparent;color:var(--muted)}.icon-btn .icon{width:14px;height:14px}.icon-btn:hover{background:var(--surface2);color:var(--ink)}.icon-btn.danger:hover{background:var(--red-soft);color:var(--red)}#segment-form{border:1px solid var(--line);background:var(--surface2);border-radius:8px;padding:13px}.segment-form-head{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12px;margin-bottom:12px}.segment-form-head button{padding:3px 6px;min-height:28px;font-size:10px}.form-error{font-size:11px;color:var(--red);margin:9px 0;white-space:pre-wrap;overflow-wrap:anywhere}.form-error:empty{display:none}.add-segment{width:100%;margin-top:10px}.empty-state{background:var(--surface2);border:1px dashed var(--line);border-radius:7px;color:var(--muted);font-size:12px;text-align:center;padding:22px 12px}.checks{margin-top:14px}.limit-check{background:var(--surface2);border:1px solid var(--line);border-radius:7px;padding:10px 12px;font-size:11px;color:var(--muted);margin-top:7px}.limit-check.bad{background:var(--red-soft);border-color:transparent;color:var(--red)}.subheading{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin:16px 0 10px}.source-tag{font-size:10px;color:var(--muted)}.small-toolbar{display:flex;gap:4px}.small-toolbar .btn{padding:4px 8px;font-size:10px;min-height:30px}.servo-note{font-size:11px;line-height:1.6;color:var(--muted);margin-top:12px}.report-content .profile-table th{min-width:0;width:auto}.report-content .profile-table td{font-variant-numeric:tabular-nums}.report-content h3{margin-top:18px}.report-content .table-scroll{overflow:auto}.formula sub{font-size:.7em;line-height:0}#p-unknown{font-size:11px;color:var(--teal);margin-top:9px}.select-method-note{margin-bottom:16px}.field.hidden-field{display:none}.field small:empty{display:none}.report-content .report-status{white-space:pre-wrap}.optional-label{font-size:10px;color:var(--muted);font-weight:400}.field input:disabled{opacity:.5}.field.input-calculated label{color:var(--teal)}@media(max-width:1150px){.drive-workspace{gap:16px;grid-template-columns:minmax(280px,.9fr) minmax(300px,1.1fr)}.drive-kpi{padding:15px}.drive-kpi .number{font-size:27px}}@media(max-width:900px){.drive-workspace{display:flex;flex-direction:column;align-items:stretch}.drive-workspace>.stack{display:contents}.drive-workspace .drive-result-card{order:-1}.drive-kpi{padding:14px 15px}.drive-kpi .number{font-size:29px}.drive-kpi small{font-size:9px}.drive-kpi .kpi-hint{font-size:9px}.small-toolbar .btn{padding:4px 6px}.drive-drawing{padding:4px 6px}.servo-row b{font-size:11px}.servo-values{font-size:10px}}@media print{#print-report table.profile-table th{width:auto;min-width:0}#print-report table.profile-table{font-size:8pt}.report-content .table-scroll{overflow:visible}}
+
+.diagram-pan-tip{display:none}.drive-drawing{overflow-x:auto;overscroll-behavior-x:contain}.drive-drawing:focus-visible{outline:2px solid var(--brand);outline-offset:-3px}@media(max-width:700px){.drive-drawing svg{min-width:520px}.diagram-pan-tip{display:block;color:var(--muted);font-size:10px;padding:6px 16px;border-top:1px solid var(--line)}}
+
+@media print{.report-content h2,.report-content h3{break-after:avoid}.report-content .report-status{break-inside:avoid}}
+
+.diagram-pan-tip:not(.needed){display:none}
+</style></head><body>
+<aside class="sidebar"><div class="brand"><div class="brand-symbol" data-icon="gears"></div><div><div class="brand-name">Pogoni</div><small>PROJEKTANTSKA ORODJA</small></div></div><div class="nav-caption">POGONSKI SKLOPI</div><nav role="tablist" aria-label="Izbira modula"><button class="nav-btn" role="tab" id="tab-gears" data-tab="gears" aria-controls="panel-gears" aria-selected="true"><i data-icon="gears"></i><span><b>Zobniški prenos</b><small>Razmerje in geometrija</small></span></button><button class="nav-btn" role="tab" id="tab-power" data-tab="power" aria-controls="panel-power" aria-selected="false"><i data-icon="power"></i><span><b>Moč in navor</b><small>Delovna točka gredi</small></span></button><button class="nav-btn" role="tab" id="tab-servos" data-tab="servos" aria-controls="panel-servos" aria-selected="false"><i data-icon="servo"></i><span><b>Servopogoni</b><small>Obremenitveni cikel</small></span></button><button class="nav-btn" role="tab" id="tab-belts" data-tab="belts" aria-controls="panel-belts" aria-selected="false"><i data-icon="belt"></i><span><b>Jermen / veriga</b><small>Geometrija in prenos</small></span></button></nav></aside>
+<div class="app"><header class="topbar"><div class="crumb">Projektantska orodja <span style="margin:0 8px">/</span><b id="crumb-current">Zobniški prenos</b></div><div class="top-actions"><button class="btn" id="save-project"><i data-icon="save"></i>Shrani projekt</button><button class="btn" id="load-project"><i data-icon="upload"></i>Odpri</button><button class="btn btn-primary" id="open-report"><i data-icon="file"></i>Poročilo</button><div class="theme-switch" role="group" aria-label="Barvna tema"><button id="theme-light" aria-label="Svetla tema" title="Svetla tema" aria-pressed="false"><i data-icon="sun"></i></button><button id="theme-dark" aria-label="Temna tema" title="Temna tema" aria-pressed="false"><i data-icon="moon"></i></button></div><button class="btn btn-quiet" id="help-btn" aria-label="Metode in omejitve" title="Metode in omejitve"><i data-icon="help"></i></button></div><input type="file" id="import" accept=".json,application/json" hidden></header>
+<main><div class="project-row"><label for="project">Projekt / naprava<input id="project" data-save maxlength="200" placeholder="Oznaka osi ali naprave"></label><label for="author">Projektant<input id="author" data-save maxlength="200" placeholder="Ime in priimek"></label><label for="revision">Revizija<input id="revision" data-save maxlength="80" placeholder="npr. A01"></label><label class="check storage-label"><input type="checkbox" id="remember"><span>Shranjuj v tem brskalniku</span></label></div><div id="panels"></div>
+<section class="card export-card"><div class="card-head"><div><h2>Povzetek projekta</h2><p class="inline-note">Izvoz vključuje vse štiri module, vhode, izračune in omejitve.</p></div></div><div class="card-body"><div class="toolbar-group"><button class="btn btn-primary" id="copy-btn"><i data-icon="copy"></i>Kopiraj povzetek</button><button class="btn" id="csv-btn"><i data-icon="table"></i>Izvozi CSV</button><button class="btn" id="txt-btn"><i data-icon="download"></i>Prenesi TXT</button><button class="btn" id="print-main"><i data-icon="print"></i>Natisni / PDF</button></div><details class="export-details"><summary>Prikaži besedilo poročila</summary><label class="visually-hidden" for="summary">Poročilo</label><textarea id="summary" readonly rows="12"></textarea></details><label for="notes" style="margin-top:16px">Opombe / uporabljene naprave in katalogi</label><textarea id="notes" data-save rows="3" maxlength="3000" placeholder="Oznaka motorja, reduktorja, jermena, verige, vir meritev in podatkov ..."></textarea></div></section>
+<div class="bottom-note"><i data-icon="info"></i><span>Projektantski pripomoček. Izračuni opisujejo vneseni model; izbira konkretnih komponent zahteva podatke in omejitve proizvajalca.</span></div><footer><span>Pogoni / profesionalna orodja za načrtovanje strojev</span><span>Deluje brez povezave · podatki ostanejo lokalni</span></footer></main></div>
+<dialog id="report-dialog"><div class="dialog-head"><h2>Poročilo projekta</h2><button class="btn btn-quiet" data-close="report-dialog" aria-label="Zapri poročilo"><i data-icon="close"></i></button></div><div class="toolbar-group" style="margin-bottom:18px"><button class="btn btn-primary" id="print-dialog"><i data-icon="print"></i>Natisni / PDF</button><button class="btn" id="dialog-txt"><i data-icon="download"></i>Prenesi TXT</button></div><div id="report-body"></div></dialog>
+<dialog id="copy-dialog"><div class="dialog-head"><h2>Kopiraj povzetek</h2><button class="btn" data-close="copy-dialog">Zapri</button></div><p>Samodejno kopiranje ni na voljo. Besedilo je označeno; uporabite Kopiraj ali Ctrl+C.</p><textarea id="copy-text" readonly rows="15"></textarea></dialog>
+<dialog id="confirm-dialog"><h2 id="confirm-title">Potrdi dejanje</h2><p id="confirm-message"></p><div class="toolbar-group"><button class="btn btn-primary" id="confirm-yes">Nadaljuj</button><button class="btn" data-close="confirm-dialog">Prekliči</button></div></dialog>
+<dialog id="help-dialog"><div class="dialog-head"><h2>Metode, viri in omejitve</h2><button class="btn btn-quiet" data-close="help-dialog" aria-label="Zapri pomoč"><i data-icon="close"></i></button></div><p class="inline-note">Števila vpisujte brez ločil tisočic. Za decimalke sta dovoljeni vejica in pika; npr. 1450 ali 12,7. Zapis 1.450 se razume kot decimalno število 1,45.</p><div class="help-grid"><div><h3>Zobniški prenos</h3><p>En zunanji par zobnikov. Vrtita se v nasprotnih smereh. Geometrija z modulom velja za standardni čelni par brez profilnega pomika. Trdnost zob, spodrezanje, zračnost, mazanje in ležaji niso preverjeni.</p><h3>Moč in navor</h3><p>Mehanska moč, navor in vrtljaji morajo pripadati isti gredi in isti delovni točki. Električna vhodna moč ni enaka mehanski moči na gredi. Iz moči pri ničelnih vrtljajih ni mogoče določiti navora.</p><h3>Servo: dejanski cikel</h3><p>Efektivni navor se izračuna iz vseh časovnih segmentov, tudi mirovanja s potrebnim držalnim navorom. V vsakem segmentu je navor konstanten. Pri spremenljivem navoru profil ustrezno razdelite ali uporabite merjene podatke. Hitrosti so sočasne vrednosti za oceno mehanske moči; niso samodejno ustvarjen profil gibanja.</p></div><div><h3>Servo: izbira motorja</h3><p>Vztrajnost bremena se prenese na motor z deljenjem s kvadratom prestavnega razmerja. Vztrajnost prenosa mora biti že podana na strani motorja. Primerjava posameznih mej ne potrjuje ustreznosti pogona: preverite celotno krivuljo navor–hitrost, trajanje preobremenitev, termične pogoje, krmilnik, zaviranje in regeneracijo.</p><h3>Jermeni in verige</h3><p>Jermenska geometrija velja za odprt prenos z dvema krožnima delilnima premeroma, brez zdrsa. Veriga uporablja korak in število zob; njena dolžina in popravljena medosna razdalja sta približna. Preverite dejanske zunanje premere, montažo, napenjanje, katalog in dovoljene obremenitve.</p><p>Efektivna obodna sila je razlika sil v vejah prenosa. Ne predstavlja prednapetosti, ležajne obremenitve ali dovoljene sile jermena oziroma verige.</p></div></div><h3>Primarni viri</h3><ul class="source-list"><li><a href="https://khkgears.net/new/gear_knowledge/gear_technical_reference/calculation_gear_dimensions.html" target="_blank" rel="noopener">KHK — Calculation of gear dimensions</a></li><li><a href="https://www.kollmorgen.com/en-us/blogs/how-to-calculate-rms-torque" target="_blank" rel="noopener">Kollmorgen — RMS torque</a></li><li><a href="https://www.kollmorgen.com/en-us/blogs/how-to-select-a-servo-motor" target="_blank" rel="noopener">Kollmorgen — Servo motor selection</a></li><li><a href="https://www.gates.com/content/dam/documents-library/catalogs/light-power-and-precision-manual.pdf" target="_blank" rel="noopener">Gates — Light Power and Precision Drive Design Manual, str. 103–104</a></li><li><a href="https://www.renold.com/media/165418/transmission-i-and-m-ren12-eng-10-10.pdf" target="_blank" rel="noopener">Renold — Transmission Chain Designer Guide, str. 103</a></li></ul><p class="inline-note">Vzorčni podatki prikazujejo delovanje kalkulatorja in ne predstavljajo preverjenih kataloških modelov. Različice in zahteve konkretnih komponent preverite v aktualni dokumentaciji proizvajalca.</p></dialog>
+<div id="toast" class="toast" role="status" aria-live="polite"></div><div id="print-report"></div><script>/* DriveCore — standalone numeric model; all lengths are mm, speeds rpm,
+ * torques Nm, powers kW and times s unless explicitly named otherwise.
+ * Every required input is validated; optional blank/null values are absent.
+ * Calculations describe ideal steady geometry / piecewise-constant motor torque.
+ * They do not select components, prove fatigue life, or validate a drive system.
+ */
+(function (root, factory) {
+  'use strict';
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  if (root) root.DriveCore = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  'use strict';
+  const MAX_INPUT = 1e12;
+  const POWER_FACTOR = 2 * Math.PI / 60000;
+  const UNITS = Object.freeze({ kgm2: 1, kgcm2: 1e-4 });
+  const present = value => value !== null && value !== undefined && !(typeof value === 'string' && value.trim() === '');
+
+  function parseNumber(value, options = {}) {
+    const label = options.label || 'Vrednost';
+    let number;
+    if (typeof value === 'number') number = value;
+    else if (typeof value === 'string') {
+      const text = value.trim();
+      // One decimal separator; no grouping, hexadecimal, partial parsing or units.
+      if (!/^[+-]?(?:\d+(?:[.,]\d*)?|[.,]\d+)(?:[eE][+-]?\d+)?$/.test(text)) {
+        throw new TypeError(label + ': vnesite veljavno število (decimalna vejica ali pika).');
+      }
+      number = Number(text.replace(',', '.'));
+      if (number === 0 && /[1-9]/.test(text.split(/[eE]/)[0])) {
+        throw new RangeError(label + ': število je premajhno za zanesljiv izračun.');
+      }
+    } else throw new TypeError(label + ': vnesite število.');
+    if (!Number.isFinite(number)) throw new RangeError(label + ': število mora biti končno.');
+    const min = options.min === undefined ? -MAX_INPUT : options.min;
+    const max = options.max === undefined ? MAX_INPUT : options.max;
+    if (number < min || number > max) throw new RangeError(label + ': vrednost mora biti med ' + min + ' in ' + max + '.');
+    if (options.allowZero === false && number === 0) throw new RangeError(label + ': vrednost mora biti večja od nič.');
+    if (options.integer && !Number.isSafeInteger(number)) throw new RangeError(label + ': zahtevano je celo število.');
+    return Object.is(number, -0) ? 0 : number;
+  }
+  const nonnegative = (value, label) => parseNumber(value, { label, min: 0 });
+  const positive = (value, label) => parseNumber(value, { label, min: 0, allowZero: false });
+  const integer = (value, label, min = 1) => parseNumber(value, { label, min, integer: true });
+  const optional = (value, parser, label) => present(value) ? parser(value, label) : null;
+  const efficiencyValue = value => parseNumber(value, { label: 'Izkoristek [%]', min: 0, max: 100 });
+  function finite(number, label, positiveOnly = false) {
+    if (!Number.isFinite(number) || (positiveOnly && number <= 0)) {
+      throw new RangeError(label + ': rezultat presega zanesljivo številsko območje. Preverite vhodne podatke.');
+    }
+    return Object.is(number, -0) ? 0 : number;
+  }
+  function requireObject(value) {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) throw new TypeError('Podatki morajo biti objekt.');
+  }
+  function roundUpStable(value) {
+    const nearest = Math.round(value);
+    const tolerance = Number.EPSILON * 16 * Math.max(1, Math.abs(value));
+    return Math.abs(value - nearest) <= tolerance ? nearest : Math.ceil(value);
+  }
+
+  function gear(input) {
+    requireObject(input);
+    const z1 = integer(input.z1, 'Število zob gonilnega zobnika');
+    const z2 = integer(input.z2, 'Število zob gnanega zobnika');
+    const n1 = nonnegative(input.n1, 'Vrtilna hitrost [rpm]');
+    const m = optional(input.module, positive, 'Modul [mm]');
+    const torque1 = optional(input.torque1, nonnegative, 'Vhodni navor [Nm]');
+    const efficiency = efficiencyValue(input.efficiency);
+    const ratio = finite(z2 / z1, 'Prestavno razmerje', true);
+    const n2 = finite(n1 / ratio, 'Izhodna hitrost');
+    const d1 = m === null ? null : finite(m * z1, 'Delilni premer 1', true);
+    const d2 = m === null ? null : finite(m * z2, 'Delilni premer 2', true);
+    const center = m === null ? null : finite((d1 + d2) / 2, 'Medosna razdalja', true);
+    const torque2 = torque1 === null ? null : finite(torque1 * ratio * (efficiency / 100), 'Izhodni navor');
+    return { z1, z2, n1, n2, inputRPM: n1, outputRPM: n2, ratio, module: m,
+      d1, d2, center, pitchDiameter1MM: d1, pitchDiameter2MM: d2, centerDistanceMM: center,
+      torque1, torque2, inputTorqueNm: torque1, outputTorqueNm: torque2,
+      efficiency, efficiencyPercent: efficiency, rotation: 'opposite',
+      model: 'external-unshifted-spur',
+      inputPowerKW: torque1 === null ? null : finite(torque1 * n1 * POWER_FACTOR, 'Vhodna moč'),
+      outputPowerKW: torque2 === null ? null : finite(torque2 * n2 * POWER_FACTOR, 'Izhodna moč') };
+  }
+
+  function power(input) {
+    requireObject(input);
+    if (!['torque', 'power', 'speed'].includes(input.solve)) throw new RangeError('Izberite izračun navora, moči ali hitrosti.');
+    const solve = input.solve;
+    let powerKW, torqueNm, rpm;
+    if (solve === 'torque') {
+      powerKW = nonnegative(input.powerKW, 'Moč [kW]');
+      rpm = positive(input.rpm, 'Vrtilna hitrost [rpm]');
+      torqueNm = finite(powerKW / (rpm * POWER_FACTOR), 'Navor');
+    } else if (solve === 'power') {
+      torqueNm = nonnegative(input.torqueNm, 'Navor [Nm]');
+      rpm = nonnegative(input.rpm, 'Vrtilna hitrost [rpm]');
+      powerKW = finite(torqueNm * rpm * POWER_FACTOR, 'Moč');
+    } else {
+      powerKW = nonnegative(input.powerKW, 'Moč [kW]');
+      torqueNm = positive(input.torqueNm, 'Navor [Nm]');
+      rpm = finite(powerKW / (torqueNm * POWER_FACTOR), 'Vrtilna hitrost');
+    }
+    return { solve, powerKW, torqueNm, rpm, angularSpeedRadS: finite(rpm * 2 * Math.PI / 60, 'Kotna hitrost') };
+  }
+
+  function inertia(input) {
+    requireObject(input);
+    if (!Object.prototype.hasOwnProperty.call(UNITS, input.unit)) throw new RangeError('Izberite enoto kg·m² ali kg·cm².');
+    const unit = input.unit, factor = UNITS[unit];
+    const load = nonnegative(input.load, 'Vztrajnost bremena');
+    const motor = positive(input.motor, 'Vztrajnost rotorja motorja');
+    const transmission = nonnegative(input.transmission, 'Dodatna vztrajnost na strani motorja');
+    const ratio = positive(input.ratio, 'Prestavno razmerje i = n motorja / n bremena');
+    const limit = optional(input.limit, nonnegative, 'Dopustno razmerje vztrajnosti');
+    const loadKgM2 = finite(load * factor, 'Vztrajnost bremena');
+    const motorKgM2 = finite(motor * factor, 'Vztrajnost motorja', true);
+    const transmissionKgM2 = finite(transmission * factor, 'Vztrajnost prenosa');
+    const reflectedLoadKgM2 = finite(loadKgM2 / ratio / ratio, 'Preračunana vztrajnost bremena');
+    const reflectedInertiaKgM2 = finite(reflectedLoadKgM2 + transmissionKgM2, 'Skupna zunanja vztrajnost');
+    const totalInertiaKgM2 = finite(motorKgM2 + reflectedInertiaKgM2, 'Celotna vztrajnost');
+    const inertiaRatio = finite(reflectedInertiaKgM2 / motorKgM2, 'Razmerje vztrajnosti');
+    return { load, motor, transmission, ratio, unit, unitFactor: factor, loadKgM2, motorKgM2, transmissionKgM2,
+      reflectedLoadKgM2, reflectedInertiaKgM2, totalInertiaKgM2, inertiaRatio, limit,
+      reflectedLoad: finite(reflectedLoadKgM2 / factor, 'Preračunana vztrajnost'),
+      reflectedInertia: finite(reflectedInertiaKgM2 / factor, 'Skupna zunanja vztrajnost'),
+      totalInertia: finite(totalInertiaKgM2 / factor, 'Celotna vztrajnost'),
+      withinLimit: limit === null ? null : inertiaRatio <= limit };
+  }
+
+  function duty(input) {
+    const list = Array.isArray(input) ? input : input && input.segments;
+    if (!Array.isArray(list) || list.length < 1 || list.length > 300) throw new RangeError('Cikel mora vsebovati od 1 do 300 odsekov.');
+    const ids = new Set();
+    const segments = list.map((segment, index) => {
+      requireObject(segment);
+      const prefix = 'Odsek ' + (index + 1);
+      if (typeof segment.id !== 'string' || !segment.id.trim() || segment.id.length > 100 || ids.has(segment.id)) {
+        throw new RangeError(prefix + ': oznaka mora biti neprazna, enolična in dolga največ 100 znakov.');
+      }
+      ids.add(segment.id);
+      if (typeof segment.name !== 'string' || !segment.name.trim() || segment.name.trim().length > 120) {
+        throw new RangeError(prefix + ': ime mora vsebovati od 1 do 120 znakov.');
+      }
+      const time = positive(segment.time, prefix + ' – čas [s]');
+      const torque = parseNumber(segment.torque, { label: prefix + ' – navor [Nm]' });
+      const speed = optional(segment.speed, (value, label) => parseNumber(value, { label }), prefix + ' – hitrost [rpm]');
+      const powerKW = speed === null ? null : finite(torque * speed * POWER_FACTOR, prefix + ' – moč');
+      return { id: segment.id, name: segment.name.trim(), time, torque, speed, powerKW };
+    });
+    const totalTime = finite(segments.reduce((sum, segment) => sum + segment.time, 0), 'Čas cikla', true);
+    const peakTorqueNm = Math.max(...segments.map(segment => Math.abs(segment.torque)));
+    // Normalize first to keep the sum of squares well conditioned.
+    const normalizedSquareMean = peakTorqueNm === 0 ? 0 : segments.reduce((sum, segment) => sum + (segment.torque / peakTorqueNm) ** 2 * (segment.time / totalTime), 0);
+    const rmsTorqueNm = finite(peakTorqueNm * Math.sqrt(normalizedSquareMean), 'Efektivni navor');
+    const meanTorqueNm = finite(segments.reduce((sum, segment) => sum + segment.torque * (segment.time / totalTime), 0), 'Povprečni navor');
+    const speedsComplete = segments.every(segment => segment.speed !== null);
+    const powers = speedsComplete ? segments.map(segment => segment.powerKW) : null;
+    return { segments, totalTime, rmsTorqueNm, peakTorqueNm, meanTorqueNm, speedsComplete,
+      peakAbsPowerKW: powers ? Math.max(...powers.map(Math.abs)) : null,
+      maxMotoringPowerKW: powers ? Math.max(0, ...powers) : null,
+      maxRegenPowerKW: powers ? Math.max(0, ...powers.map(value => -value)) : null,
+      meanPowerKW: powers ? finite(segments.reduce((sum, segment) => sum + segment.powerKW * (segment.time / totalTime), 0), 'Povprečna mehanska moč') : null,
+      motorShaft: true, piecewiseConstant: true };
+  }
+
+  function beltLength(d1, d2, center) {
+    const R = Math.max(d1, d2) / 2, r = Math.min(d1, d2) / 2, delta = R - r;
+    return finite(2 * Math.sqrt((center - delta) * (center + delta)) + Math.PI * (R + r) + 2 * delta * Math.asin(delta / center), 'Dolžina jermena', true);
+  }
+  function beltCenter(d1, d2, length) {
+    const minimumCenter = (d1 + d2) / 2;
+    const minimumLength = beltLength(d1, d2, minimumCenter);
+    if (length <= minimumLength) throw new RangeError('Izbrana dolžina jermena je prekratka za neprekrivajoči se jermenici.');
+    let low = minimumCenter, high = Math.max(2 * minimumCenter, length / 2);
+    // L(C) is strictly increasing on this physical interval.
+    while (beltLength(d1, d2, high) < length) high *= 2;
+    for (let index = 0; index < 100; index++) {
+      const mid = low + (high - low) / 2;
+      if (beltLength(d1, d2, mid) < length) low = mid;
+      else high = mid;
+    }
+    if (!(high > minimumCenter)) throw new RangeError('Izbrana dolžina je preblizu meji dotika jermenic.');
+    return finite(high, 'Medosna razdalja iz dolžine', true);
+  }
+  function chainCenter(pitch, z1, z2, links, minimumCenter) {
+    const B = links - (z1 + z2) / 2;
+    const K = (z2 - z1) ** 2 / (4 * Math.PI ** 2);
+    const discriminant = B * B - 8 * K;
+    if (B <= 0 || discriminant < 0) throw new RangeError('Izbrano število členov ne omogoča realne medosne razdalje.');
+    const center = finite(pitch / 4 * (B + Math.sqrt(discriminant)), 'Medosna razdalja verige', true);
+    if (!(center > minimumCenter)) throw new RangeError('Izbrana veriga je prekratka za neprekrivajoči se verižnici.');
+    return center;
+  }
+
+  function transmission(input) {
+    requireObject(input);
+    const kind = input.kind;
+    if (!['smooth', 'timing', 'chain'].includes(kind)) throw new RangeError('Izberite torni jermen, zobati jermen ali verigo.');
+    const n1 = nonnegative(input.rpm, 'Vhodna hitrost [rpm]');
+    const center = positive(input.center, 'Medosna razdalja [mm]');
+    const efficiency = efficiencyValue(input.efficiency);
+    const powerKW = optional(input.powerKW, nonnegative, 'Vhodna mehanska moč [kW]');
+    if (powerKW !== null && powerKW > 0 && n1 === 0) throw new RangeError('Pri ničelni hitrosti pozitivna mehanska moč ni mogoča.');
+    let d1, d2, pitch = null, z1 = null, z2 = null;
+    if (kind === 'smooth') {
+      d1 = positive(input.d1, 'Efektivni premer gonilne jermenice [mm]');
+      d2 = positive(input.d2, 'Efektivni premer gnane jermenice [mm]');
+    } else {
+      pitch = positive(input.pitch, 'Korak [mm]');
+      z1 = integer(input.z1, 'Število zob gonilnega kolesa', kind === 'chain' ? 3 : 1);
+      z2 = integer(input.z2, 'Število zob gnanega kolesa', kind === 'chain' ? 3 : 1);
+      d1 = finite(kind === 'timing' ? pitch * z1 / Math.PI : pitch / Math.sin(Math.PI / z1), 'Delilni premer 1', true);
+      d2 = finite(kind === 'timing' ? pitch * z2 / Math.PI : pitch / Math.sin(Math.PI / z2), 'Delilni premer 2', true);
+    }
+    const minimumCenter = finite((d1 + d2) / 2, 'Najmanjša medosna razdalja', true);
+    if (!(center > minimumCenter)) throw new RangeError('Medosna razdalja mora biti večja od vsote delilnih oziroma efektivnih polmerov (' + minimumCenter.toFixed(3) + ' mm).');
+    const ratio = finite(kind === 'smooth' ? d2 / d1 : z2 / z1, 'Prestavno razmerje', true);
+    const n2 = finite(n1 / ratio, 'Izhodna hitrost');
+    const v = finite(kind === 'chain' ? pitch * z1 * n1 / 60000 : Math.PI * d1 * n1 / 60000, 'Hitrost jermena oziroma verige');
+    const selectedLengthInput = optional(input.selectedLength, positive, 'Izbrana dolžina jermena [mm]');
+    const selectedLinksInput = optional(input.selectedLinks, (value, label) => integer(value, label, 2), 'Izbrano število členov');
+    let calculatedLengthMM = null, selectedLengthMM = null, adjustedCenterMM = null;
+    let wrapSmallDeg = null, pitchCount = null, suggestedTeeth = null;
+    let approximateChainLinks = null, suggestedEvenLinks = null, selectedLinks = null, chainLengthMM = null;
+    if (kind === 'chain') {
+      if (selectedLengthInput !== null) throw new RangeError('Pri verigi izberite število členov, ne dolžine jermena.');
+      approximateChainLinks = finite(2 * center / pitch + (z1 + z2) / 2 + pitch * (z2 - z1) ** 2 / (4 * Math.PI ** 2 * center), 'Približno število členov', true);
+      suggestedEvenLinks = 2 * roundUpStable(approximateChainLinks / 2);
+      if (!Number.isSafeInteger(suggestedEvenLinks)) throw new RangeError('Število členov presega zanesljivo številsko območje.');
+      if (selectedLinksInput !== null && selectedLinksInput % 2 !== 0) throw new RangeError('Izbrano število členov mora biti sodo celo število.');
+      selectedLinks = selectedLinksInput === null ? suggestedEvenLinks : selectedLinksInput;
+      adjustedCenterMM = chainCenter(pitch, z1, z2, selectedLinks, minimumCenter);
+      calculatedLengthMM = finite(approximateChainLinks * pitch, 'Približna dolžina verige', true);
+      chainLengthMM = finite(selectedLinks * pitch, 'Dolžina izbrane verige', true);
+      selectedLengthMM = chainLengthMM;
+    } else {
+      if (selectedLinksInput !== null) throw new RangeError('Število členov je namenjeno verigi.');
+      calculatedLengthMM = beltLength(d1, d2, center);
+      const delta = Math.abs(d2 - d1) / 2;
+      wrapSmallDeg = finite(180 - 2 * Math.asin(delta / center) * 180 / Math.PI, 'Objemni kot');
+      if (kind === 'timing') {
+        pitchCount = finite(calculatedLengthMM / pitch, 'Geometrijsko število zob jermena', true);
+        suggestedTeeth = roundUpStable(pitchCount);
+        if (!Number.isSafeInteger(suggestedTeeth)) throw new RangeError('Število zob jermena presega zanesljivo številsko območje.');
+      }
+      if (selectedLengthInput !== null) {
+        if (kind === 'timing' && Math.abs(selectedLengthInput / pitch - Math.round(selectedLengthInput / pitch)) > 1e-8) {
+          throw new RangeError('Dolžina zobatega jermena mora biti celoštevilčni večkratnik koraka.');
         }
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..700&family=Plus+Jakarta+Sans:wght@300..800&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.011em; }
-        .font-mono-num { font-family: 'JetBrains Mono', monospace; }
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-        input[type="number"] { -moz-appearance: textfield; }
-        .fade-in { animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .tab-btn { transition: all 0.2s ease-in-out; }
-    </style>
-</head>
-<body class="bg-zinc-950 text-zinc-100 min-h-screen p-4 md:p-8 antialiased">
+        selectedLengthMM = selectedLengthInput;
+        adjustedCenterMM = beltCenter(d1, d2, selectedLengthInput);
+      }
+    }
+    const inputTorqueNm = powerKW === null || n1 === 0 ? null : finite(powerKW / (n1 * POWER_FACTOR), 'Vhodni navor');
+    const outputTorqueNm = inputTorqueNm === null ? null : finite(inputTorqueNm * ratio * (efficiency / 100), 'Izhodni navor');
+    const outputPowerKW = powerKW === null ? null : finite(powerKW * (efficiency / 100), 'Izhodna moč');
+    const effectivePullN = powerKW === null || v === 0 ? null : finite(1000 * powerKW / v, 'Obodna sila');
+    const adjustedWrapSmallDeg = kind === 'chain' || adjustedCenterMM === null ? null : finite(180 - 2 * Math.asin(Math.abs(d2 - d1) / (2 * adjustedCenterMM)) * 180 / Math.PI, 'Objemni kot izbranega jermena');
+    return { kind, type: kind, n1, n2, inputRPM: n1, outputRPM: n2, center, a: center, minimumCenter,
+      d1, d2, pitch, z1, z2, ratio, v, speedMS: v, efficiency, efficiencyPercent: efficiency,
+      calculatedLengthMM, selectedLengthMM, adjustedCenterMM, wrapSmallDeg, adjustedWrapSmallDeg,
+      pitchCount, suggestedTeeth, approximateChainLinks, suggestedEvenLinks, selectedLinks, chainLengthMM,
+      powerKW, inputPowerKW: powerKW, outputPowerKW, inputTorqueNm, outputTorqueNm, effectivePullN,
+      lengthModel: kind === 'chain' ? 'approximate-chain-pitch-formula' : 'exact-open-circle-pitch-geometry',
+      rotation: 'same', slipIncluded: false };
+  }
 
-    <div class="max-w-7xl mx-auto space-y-6">
-        
-        <!-- HEADER -->
-        <header class="flex flex-col md:flex-row md:items-center md:justify-between border-b border-zinc-800/80 pb-5 gap-4">
-            <div class="flex items-center gap-3.5">
-                <div class="p-3 bg-orange-500/10 text-orange-500 rounded-xl border border-orange-500/20">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    </svg>
-                </div>
-                <div>
-                    <h1 class="text-2xl font-extrabold tracking-tight text-white">Inženirski kalkulator pogonskih sklopov</h1>
-                    <p class="text-xs text-zinc-400 mt-1 font-normal">Celovit preračun kinematike, navora, vztrajnosti in prenosov moči za industrijsko avtomatizacijo.</p>
-                </div>
-            </div>
-            
-            <!-- ZAVIHKI -->
-            <div class="flex flex-wrap gap-2">
-                <button onclick="switchTab('gears')" id="btn-gears" class="tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs border bg-orange-500 text-zinc-950 border-orange-400 shadow-lg">
-                    Zobniški prenos
-                </button>
-                <button onclick="switchTab('power')" id="btn-power" class="tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs border bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-white">
-                    Moč &amp; navor
-                </button>
-                <button onclick="switchTab('servos')" id="btn-servos" class="tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs border bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-white">
-                    Servopogoni
-                </button>
-                <button onclick="switchTab('belts')" id="btn-belts" class="tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs border bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-white">
-                    Jermenski/verižni pogon
-                </button>
-            </div>
-        </header>
+  return Object.freeze({ parseNumber, gear, power, inertia, duty, transmission, MAX_INPUT, POWER_FACTOR });
+});
 
-        <!-- 1. ZOBNIŠKI PRENOS -->
-        <div id="tab-gears" class="fade-in space-y-6">
-            <section class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="bg-zinc-900 border border-orange-500/30 rounded-xl p-5 shadow-lg relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-1.5 h-full bg-orange-500"></div>
-                    <div class="text-zinc-400 text-xs font-semibold uppercase tracking-wider">Prestavno razmerje (i)</div>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <span id="g-res-i" class="text-4xl font-extrabold font-mono-num text-orange-400">-</span>
-                        <span class="text-zinc-400 font-semibold text-sm">razmerje</span>
-                    </div>
-                </div>
-                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 shadow-lg">
-                    <div class="text-zinc-400 text-xs font-semibold uppercase tracking-wider">Izhodni vrtljaji (n₂)</div>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <span id="g-res-n2" class="text-3xl font-bold font-mono-num text-cyan-400">-</span>
-                        <span class="text-zinc-400 font-semibold text-sm">RPM</span>
-                    </div>
-                </div>
-            </section>
+(function (root) {
+  'use strict';
+  let sequence = 0;
+  const esc = value => String(value == null ? '' : value).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+  const finite = value => value !== '' && value != null && Number.isFinite(Number(value));
+  const number = (value, fallback = 0) => finite(value) ? Number(value) : fallback;
+  const fmt = (value, places = 2) => {
+    if (!finite(value)) return '—';
+    const n = Number(value), scientific = Math.abs(n) >= 1e6 || (n !== 0 && Math.abs(n) < 1e-3);
+    return n.toLocaleString('sl-SI', scientific ? { notation: 'scientific', maximumFractionDigits: 3 } : { maximumFractionDigits: places, minimumFractionDigits: 0 });
+  };
+  const fmtJ = value => {
+    if (!finite(value)) return '—';
+    const n = Number(value), scientific = Math.abs(n) >= 1e5 || (n !== 0 && Math.abs(n) < 1e-3);
+    return n.toLocaleString('sl-SI', scientific ? { notation: 'scientific', maximumFractionDigits: 3 } : { maximumSignificantDigits: 4 });
+  };
+  const p = value => Number(value).toFixed(2);
+  const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+  const txt = (x, y, value, cls = '', anchor = 'middle', extra = '') => `<text x="${p(x)}" y="${p(y)}" class="${cls}" text-anchor="${anchor}" ${extra}>${esc(value)}</text>`;
+  const line = (x1, y1, x2, y2, cls = '', extra = '') => `<line x1="${p(x1)}" y1="${p(y1)}" x2="${p(x2)}" y2="${p(y2)}" class="${cls}" ${extra}/>`;
+  const circle = (x, y, r, cls = '', extra = '') => `<circle cx="${p(x)}" cy="${p(y)}" r="${p(r)}" class="${cls}" ${extra}/>`;
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <div class="lg:col-span-6 space-y-5">
-                    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 shadow-lg space-y-4">
-                        <h2 class="text-xs font-bold uppercase tracking-wider text-orange-400">Vhodni parametri zobnikov</h2>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-medium text-zinc-300 mb-1">Število zob pogonskega zobnika (z₁)</label>
-                                <input type="number" id="g-z1" value="20" min="1" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs font-mono-num text-white focus:outline-none focus:border-orange-500 calc-trigger">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-zinc-300 mb-1">Število zob gnanega zobnika (z₂)</label>
-                                <input type="number" id="g-z2" value="60" min="1" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs font-mono-num text-white focus:outline-none focus:border-orange-500 calc-trigger">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-zinc-300 mb-1">Vhodni vrtljaji (n₁) [min⁻¹]</label>
-                                <input type="number" id="g-n1" value="1450" min="0" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs font-mono-num text-white focus:outline-none focus:border-orange-500 calc-trigger">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  function begin(title, description, height = 300) {
+    const id = `drive-visual-${++sequence}`;
+    return {
+      id,
+      start: `<svg class="drive-drawing" viewBox="0 0 560 ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="${id}-title ${id}-desc"><title id="${id}-title">${esc(title)}</title><desc id="${id}-desc">${esc(description)}</desc><style>
+      svg.drive-drawing{display:block;width:100%;height:auto;overflow:visible;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink,#e7edf5)}
+      .drive-drawing text{fill:var(--ink,#e7edf5);font-size:13px;font-weight:600}
+      .drive-drawing .dv-small{font-size:11px;font-weight:500;fill:var(--muted,#91a0b6)}
+      .drive-drawing .dv-note{font-size:12px;font-weight:500;fill:var(--muted,#91a0b6)}
+      .drive-drawing .dv-strong{font-size:15px;font-weight:700}
+      .drive-drawing .dv-brand-text{fill:var(--brand,#f38b48)}
+      .drive-drawing .dv-teal-text{fill:var(--teal,#30c5bd)}
+      .drive-drawing .dv-surface{fill:var(--surface2,#182334);stroke:var(--line,#344155);stroke-width:1.6}
+      .drive-drawing .dv-panel{fill:var(--surface,#101b2b);stroke:var(--line,#344155);stroke-width:1}
+      .drive-drawing .dv-wheel{fill:var(--surface2,#182334);stroke:var(--ink,#e7edf5);stroke-width:2}
+      .drive-drawing .dv-wheel2{fill:var(--surface2,#182334);stroke:var(--teal,#30c5bd);stroke-width:2}
+      .drive-drawing .dv-line{fill:none;stroke:var(--line,#344155);stroke-width:1.4}
+      .drive-drawing .dv-grid{fill:none;stroke:var(--line,#344155);stroke-width:1;opacity:.65}
+      .drive-drawing .dv-axis{fill:none;stroke:var(--muted,#91a0b6);stroke-width:1.3}
+      .drive-drawing .dv-dash{fill:none;stroke:var(--muted,#91a0b6);stroke-width:1;stroke-dasharray:4 5;opacity:.7}
+      .drive-drawing .dv-brand{fill:none;stroke:var(--brand,#f38b48);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+      .drive-drawing .dv-teal{fill:none;stroke:var(--teal,#30c5bd);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+      .drive-drawing .dv-rms{fill:none;stroke:var(--teal,#30c5bd);stroke-width:1.8;stroke-dasharray:6 5}
+      .drive-drawing .dv-shaft{stroke:var(--muted,#91a0b6);stroke-width:9;stroke-linecap:round}
+      </style><defs><marker id="${id}-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1L9 5L1 9Z" fill="var(--brand,#f38b48)"/></marker><marker id="${id}-teal-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1L9 5L1 9Z" fill="var(--teal,#30c5bd)"/></marker><marker id="${id}-dim" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="var(--muted,#91a0b6)" stroke-width="1.5"/></marker></defs>`
+    };
+  }
+  function empty(kind, reason) {
+    const labels = { gears: 'Zobniški prenos', power: 'Moč in navor', servos: 'Obremenitev servopogona', belts: 'Jermenski in verižni prenos' };
+    const s = begin(labels[kind] || 'Shema pogona', 'Za prikaz sheme najprej vnesite veljavne podatke.');
+    return s.start + `<rect x="44" y="48" width="472" height="204" rx="18" class="dv-panel"/>` + circle(280, 114, 26, 'dv-dash') + line(265, 114, 295, 114, 'dv-axis') + line(280, 99, 280, 129, 'dv-axis') + txt(280, 174, 'Shema čaka na veljavne podatke', 'dv-strong') + txt(280, 200, reason || 'Preverite označena vnosna polja.', 'dv-note') + '</svg>';
+  }
+  function gearOutline(cx, cy, radius, count, phase) {
+    const points = [];
+    for (let i = 0; i < count * 4; i++) {
+      const a = i * 2 * Math.PI / (count * 4) + phase;
+      const r = i % 4 === 1 || i % 4 === 2 ? radius + 5 : radius - 4;
+      points.push(`${p(cx + Math.cos(a) * r)},${p(cy + Math.sin(a) * r)}`);
+    }
+    return points.join(' ');
+  }
+  function gears(r) {
+    if (!(number(r.z1) > 0 && number(r.z2) > 0)) return empty('gears');
+    const largerSecond = number(r.z2) >= number(r.z1);
+    const r1 = largerSecond ? 60 : 86, r2 = largerSecond ? 86 : 60;
+    const x1 = largerSecond ? 189 : 163, x2 = x1 + r1 + r2, cy = 147;
+    const s = begin('Zunanja zobniška dvojica', `Pogonski zobnik ima ${fmt(r.z1, 0)} zob in hitrost ${fmt(r.n1)} vrtljajev na minuto. Gnani zobnik ima ${fmt(r.z2, 0)} zob in hitrost ${fmt(r.n2)} vrtljajev na minuto. Smeri vrtenja sta nasprotni.`);
+    let svg = s.start;
+    svg += txt(x1, 28, 'Pogonski zobnik', 'dv-note') + txt(x2, 28, 'Gnani zobnik', 'dv-note');
+    svg += `<polygon points="${gearOutline(x1, cy, r1, largerSecond ? 14 : 20, .05)}" class="dv-wheel"/><polygon points="${gearOutline(x2, cy, r2, largerSecond ? 20 : 14, .16)}" class="dv-wheel2"/>`;
+    for (const [x, rad] of [[x1, r1], [x2, r2]]) {
+      svg += circle(x, cy, rad - 17, 'dv-dash') + circle(x, cy, 14, 'dv-panel');
+      svg += line(x - 9, cy, x + 9, cy, 'dv-axis') + line(x, cy - 9, x, cy + 9, 'dv-axis');
+    }
+    svg += `<path d="M${p(x1 - 25)} ${p(cy - 28)} A38 38 0 0 1 ${p(x1 + 35)} ${p(cy - 8)}" class="dv-brand" marker-end="url(#${s.id}-arrow)"/><path d="M${p(x2 + 25)} ${p(cy - 28)} A38 38 0 0 0 ${p(x2 - 35)} ${p(cy - 8)}" class="dv-teal" marker-end="url(#${s.id}-teal-arrow)"/>`;
+    svg += txt(x1, cy + 39, `z₁ = ${fmt(r.z1, 0)}`, 'dv-strong') + txt(x2, cy + 39, `z₂ = ${fmt(r.z2, 0)}`, 'dv-strong');
+    svg += txt(x1, 258, `n₁ = ${fmt(r.n1, 1)} min⁻¹`, 'dv-note') + txt(x2, 258, `n₂ = ${fmt(r.n2, 1)} min⁻¹`, 'dv-note');
+    svg += txt(280, 286, `i = z₂ / z₁ = ${fmt(r.ratio, 3)} · nasprotni smeri vrtenja`, 'dv-small');
+    return svg + '</svg>';
+  }
+  function power(r) {
+    if (![r.powerKW, r.torqueNm, r.rpm].every(finite)) return empty('power');
+    const s = begin('Moč, navor in vrtilna hitrost gredi', `Mehanska moč na gredi ${fmt(r.powerKW, 3)} kilovata, navor ${fmt(r.torqueNm, 3)} newton metra in hitrost ${fmt(r.rpm, 1)} vrtljajev na minuto.`);
+    let svg = s.start;
+    svg += `<rect x="64" y="91" width="161" height="118" rx="19" class="dv-surface"/><rect x="225" y="124" width="18" height="52" rx="4" class="dv-wheel2"/><path d="M84 209V221H205V209" class="dv-line"/>`;
+    for (let x = 91; x < 207; x += 19) svg += line(x, 108, x, 190, 'dv-line');
+    svg += line(243, 150, 408, 150, 'dv-shaft') + `<rect x="306" y="134" width="19" height="32" rx="4" class="dv-wheel"/>` + circle(418, 150, 27, 'dv-wheel2') + circle(418, 150, 7, 'dv-panel');
+    svg += `<path d="M445 112A47 47 0 1 1 378 128" class="dv-brand" marker-end="url(#${s.id}-arrow)"/>`;
+    svg += txt(145, 58, `P = ${fmt(r.powerKW, 3)} kW`, 'dv-strong dv-brand-text') + txt(418, 58, `M = ${fmt(r.torqueNm, 3)} N·m`, 'dv-strong');
+    svg += txt(145, 246, 'Motor / pogonska gred', 'dv-note') + txt(418, 246, `n = ${fmt(r.rpm, 1)} min⁻¹`, 'dv-note');
+    svg += txt(280, 283, 'Vse tri veličine veljajo za isto mehansko gred.', 'dv-small');
+    return svg + '</svg>';
+  }
+  function inertiaStrip(r, s) {
+    if (!r || !finite(r.inertiaRatio)) return '';
+    const unit = r.unit === 'kgm2' || r.unit === 'kg·m²' || r.unit === 'kgm²' ? 'kg·m²' : 'kg·cm²';
+    let svg = line(134, 304, 426, 304, 'dv-axis');
+    svg += `<rect x="54" y="276" width="116" height="56" rx="10" class="dv-surface"/><rect x="238" y="280" width="84" height="48" rx="10" class="dv-surface"/><rect x="390" y="276" width="116" height="56" rx="10" class="dv-surface"/>`;
+    svg += txt(112, 297, 'Motor', 'dv-small') + txt(112, 317, `J = ${fmtJ(r.motor)} ${unit}`, 'dv-note');
+    svg += txt(280, 300, 'Prenos', 'dv-small') + txt(280, 318, `i = ${fmt(r.ratio, 2)}`, 'dv-note');
+    svg += txt(448, 297, 'Breme', 'dv-small') + txt(448, 317, `J = ${fmtJ(r.load)} ${unit}`, 'dv-note');
+    svg += txt(280, 356, `Breme in prenos na motorju / rotor = ${fmt(r.inertiaRatio, 2)} : 1`, 'dv-small');
+    return svg;
+  }
+  function inertiaOnly(r) {
+    const s = begin('Vztrajnost na gredi motorja', `Breme je preko prenosa s prestavnim razmerjem ${fmt(r.ratio, 3)} preračunano na gred motorja. Razmerje vztrajnosti bremena in prenosa proti rotorju je ${fmt(r.inertiaRatio, 3)} proti ena. Časovni profil navora ni vnesen.`, 220);
+    let svg = s.start + txt(280, 28, 'Vztrajnost na gredi motorja', 'dv-strong');
+    if (finite(r.reflectedInertiaKgM2)) svg += txt(280, 54, `Breme in prenos pri motorju: ${fmtJ(r.reflectedInertiaKgM2)} kg·m²`, 'dv-note');
+    svg += `<g transform="translate(0,-175)">${inertiaStrip(r, s)}</g>`;
+    svg += txt(280, 211, 'Za prikaz časovnega poteka navora dodajte segmente cikla.', 'dv-small');
+    return svg + '</svg>';
+  }
+  function servos(r) {
+    const duty = r.duty || r.cycle || r;
+    const inertia = r.inertia;
+    const segments = Array.isArray(duty.segments) ? duty.segments.filter(row => finite(row.time) && Number(row.time) > 0 && finite(row.torque)) : [];
+    if (!segments.length) return inertia && finite(inertia.inertiaRatio) ? inertiaOnly(inertia) : empty('servos', 'Dodajte odseke z navorom in trajanjem.');
+    const duration = segments.reduce((sum, row) => sum + Number(row.time), 0);
+    const peak = Math.max(...segments.map(row => Math.abs(Number(row.torque))));
+    const rms = number(duty.rmsTorqueNm, Math.sqrt(segments.reduce((sum, row) => sum + Number(row.torque) ** 2 * Number(row.time), 0) / duration));
+    const hasNegative = segments.some(row => Number(row.torque) < 0);
+    const extent = peak > 0 ? peak * 1.17 : 1;
+    const lower = hasNegative ? -extent : -extent * .08;
+    const upper = extent;
+    const x0 = 62, y0 = 47, w = 454, h = 164;
+    const x = time => x0 + time / duration * w;
+    const y = torque => y0 + (upper - torque) / (upper - lower) * h;
+    const s = begin('Časovni potek navora servopogona', `Stopničasti diagram navora na gredi motorja. Cikel traja ${fmt(duration, 3)} sekund, efektivni navor je ${fmt(rms, 3)} newton metra, največji absolutni navor ${fmt(peak, 3)} newton metra. Negativni predznak pomeni nasprotno smer navora.`, inertia && finite(inertia.inertiaRatio) ? 370 : 281);
+    let svg = s.start + txt(x0, 24, 'Navor [N·m]', 'dv-note', 'start') + txt(516, 24, `RMS ${fmt(rms, 3)} N·m`, 'dv-teal-text', 'end');
+    const ticks = hasNegative ? [-peak, -peak / 2, 0, peak / 2, peak] : [0, peak / 2, peak];
+    const visibleTicks = peak === 0 ? [0] : ticks;
+    visibleTicks.forEach(torque => { svg += line(x0, y(torque), x0 + w, y(torque), torque === 0 ? 'dv-axis' : 'dv-grid') + txt(x0 - 9, y(torque) + 4, fmt(torque, 2), 'dv-small', 'end'); });
+    svg += line(x0, y0, x0, y0 + h, 'dv-axis');
+    if (rms > 0) svg += line(x0, y(rms), x0 + w, y(rms), 'dv-rms');
+    let time = 0, path = '', area = `M${p(x0)} ${p(y(0))}`;
+    segments.forEach((row, i) => {
+      const start = x(time), end = x(time + Number(row.time)), top = y(Number(row.torque));
+      path += `${i ? 'L' : 'M'}${p(start)} ${p(top)}H${p(end)}`;
+      area += `L${p(start)} ${p(top)}H${p(end)}`;
+      time += Number(row.time);
+    });
+    area += `L${p(x(duration))} ${p(y(0))}Z`;
+    svg += `<path d="${area}" fill="var(--brand,#f38b48)" opacity=".10"/><path d="${path}" class="dv-brand"/>`;
+    for (let i = 0; i <= 4; i++) {
+      const timeTick = duration * i / 4;
+      svg += line(x(timeTick), y0 + h, x(timeTick), y0 + h + 5, 'dv-axis') + txt(x(timeTick), y0 + h + 19, fmt(timeTick, 2), 'dv-small');
+    }
+    svg += txt(516, 258, 'Čas [s]', 'dv-small', 'end') + txt(x0, 258, 'Predznak označuje smer navora.', 'dv-small', 'start');
+    if (inertia && finite(inertia.inertiaRatio)) svg += inertiaStrip(inertia, s);
+    return svg + '</svg>';
+  }
+  function belts(r) {
+    if (!(number(r.d1) > 0 && number(r.d2) > 0 && number(r.center, number(r.a)) > 0)) return empty('belts');
+    const type = String(r.kind || r.type || 'smooth');
+    const chain = type === 'chain';
+    const timing = type === 'timing' || type === 'toothed' || type === 'synchronous';
+    const name = chain ? 'Verižni prenos' : timing ? 'Zobati jermen' : 'Gladki / klinasti jermen';
+    const d1 = Number(r.d1), d2 = Number(r.d2), center = number(r.center, number(r.a));
+    const ratio = Math.max(d1, d2) / Math.min(d1, d2);
+    const big = 73, small = big / clamp(ratio, 1, 1.45);
+    const rad1 = d1 >= d2 ? big : small, rad2 = d1 >= d2 ? small : big;
+    const x1 = 147, x2 = 410, cy = 145, c = x2 - x1;
+    const dr = rad2 - rad1, nx = -dr / c, ny = Math.sqrt(1 - nx * nx);
+    const a = [x1 + rad1 * nx, cy - rad1 * ny], b = [x2 + rad2 * nx, cy - rad2 * ny];
+    const c1 = [x1 + rad1 * nx, cy + rad1 * ny], c2 = [x2 + rad2 * nx, cy + rad2 * ny];
+    const path = `M${p(a[0])} ${p(a[1])}L${p(b[0])} ${p(b[1])}A${p(rad2)} ${p(rad2)} 0 ${dr >= 0 ? 1 : 0} 1 ${p(c2[0])} ${p(c2[1])}L${p(c1[0])} ${p(c1[1])}A${p(rad1)} ${p(rad1)} 0 ${dr < 0 ? 1 : 0} 1 ${p(a[0])} ${p(a[1])}Z`;
+    const s = begin(name, `${name} se dvema kolesoma in odprtim potekom. Osna razdalja ${fmt(center, 2)} milimetrov. Hitrost ${chain ? 'verige je povprečna' : 'jermena'} ${fmt(r.v, 3)} metra na sekundo. Obe gredi se vrtita v isto smer.`, 315);
+    let svg = s.start + txt(280, 26, name, 'dv-strong');
+    if (timing || chain) svg += txt(280, 46, `Korak p = ${fmt(r.pitch, 3)} mm`, 'dv-small');
+    svg += circle(x1, cy, rad1, 'dv-dash') + circle(x2, cy, rad2, 'dv-dash');
+    svg += `<path d="${path}" fill="none" stroke="var(--line,#344155)" stroke-width="${chain ? 10 : timing ? 8 : 6}"/>`;
+    svg += `<path d="${path}" fill="none" stroke="var(--brand,#f38b48)" stroke-width="${chain ? 7 : timing ? 5 : 3}" ${chain ? 'stroke-dasharray="3 8" stroke-linecap="round"' : timing ? 'stroke-dasharray="3 5"' : ''}/>`;
+    for (const [cx, radius] of [[x1, rad1], [x2, rad2]]) {
+      svg += circle(cx, cy, radius - 11, 'dv-surface') + circle(cx, cy, 7, 'dv-wheel2');
+    }
+    if (timing || chain) {
+      svg += txt(x1, cy - 19, `z₁ = ${fmt(r.z1, 0)}`, 'dv-strong') + txt(x2, cy - 19, `z₂ = ${fmt(r.z2, 0)}`, 'dv-strong');
+    } else {
+      svg += txt(x1, cy - 12, 'd₁', 'dv-strong') + txt(x2, cy - 12, 'd₂', 'dv-strong');
+      svg += txt(x1, cy + 30, `${fmt(d1, 2)} mm`, 'dv-small') + txt(x2, cy + 30, `${fmt(d2, 2)} mm`, 'dv-small');
+    }
+    const vx1 = (a[0] + b[0]) / 2 - 25, vy = (a[1] + b[1]) / 2 - 16;
+    svg += line(vx1, vy, vx1 + 50, vy, 'dv-teal', `marker-end="url(#${s.id}-teal-arrow)"`) + txt(vx1 + 25, vy - 9, 'v', 'dv-teal-text');
+    svg += txt(x1, 239, `n₁ = ${fmt(r.n1, 1)} min⁻¹`, 'dv-small') + txt(x2, 239, `n₂ = ${fmt(r.n2, 1)} min⁻¹`, 'dv-small');
+    svg += line(x1, 249, x1, 279, 'dv-dash') + line(x2, 249, x2, 279, 'dv-dash');
+    svg += line(x1 + 1, 268, x2 - 1, 268, 'dv-axis', `marker-start="url(#${s.id}-dim)" marker-end="url(#${s.id}-dim)"`);
+    svg += `<rect x="211" y="256" width="135" height="24" rx="7" fill="var(--surface,#101b2b)"/>` + txt(278.5, 273, `a = ${fmt(center, 2)} mm`, 'dv-note');
+    svg += txt(280, 305, `${chain ? 'Srednja hitrost verige' : 'Hitrost jermena'} v = ${fmt(r.v, 3)} m/s · enaka smer vrtenja`, 'dv-small');
+    return svg + '</svg>';
+  }
+  function render(kind, result, options) {
+    try {
+      if (!result || result.ok === false || result.valid === false || result.error) return empty(kind);
+      const o = options || {};
+      const value = result.value && typeof result.value === 'object' ? result.value : result;
+      const r = Object.assign({}, o.input || {}, value.input || {}, value);
+      if (kind === 'gears') return gears(r);
+      if (kind === 'power') return power(r);
+      if (kind === 'servos') return servos(r);
+      if (kind === 'belts') return belts(r);
+      return empty(kind);
+    } catch (_) {
+      return empty(kind);
+    }
+  }
+  root.DriveVisuals = Object.freeze({ render });
+})(typeof window !== 'undefined' ? window : globalThis);
 
-                <div class="lg:col-span-6 space-y-5">
-                    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 shadow-lg space-y-3">
-                        <h2 class="text-xs font-bold uppercase tracking-wider text-white">Navodila &amp; Možne rešitve</h2>
-                        <div class="bg-zinc-950 p-4 rounded-lg border border-zinc-800 space-y-3 text-xs text-zinc-300">
-                            <p class="leading-relaxed"><strong>Navodilo:</strong> Vnesite število zob za oba zobnika in vhodno hitrost motorja.</p>
-                            <p class="leading-relaxed">• <strong>Rešitev 1 (Enostopenjski čelni prenos):</strong> Primerno za razmerja do i &le; 7:1. Nizke izgube in visoka mehanska učinkovitost (&gt;97%).</p>
-                            <p class="leading-relaxed">• <strong>Rešitev 2 (Planetno ali čelni reduktor z več stopnjami):</strong> Pri prestavnih razmerjih nad 7:1 uporabite dvostopenjski sistem, da preprečite neustrezno velikost in prevelike obodne sile.</p>
-                            <div id="g-warning" class="hidden bg-amber-500/10 border border-amber-500/30 text-amber-400 p-3 rounded-lg">
-                                ⚠️ <strong>Opozorilo:</strong> Prestavno razmerje je višje od 7:1. Priporočena je izbira večstopenjskega reduktorja.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 2. MOČ IN NAVOR -->
-        <div id="tab-power" class="hidden fade-in space-y-6">
-            <section class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="bg-zinc-900 border border-orange-500/30 rounded-xl p-5 shadow-lg relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-1.5 h-full bg-orange-500"></div>
-                    <div class="text-zinc-400 text-xs font-semibold uppercase tracking-wider">Izračunan navor (M)</div>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <span id="p-res-m" class="text-4xl font-extrabold font-mono-num text-orange-400">-</span>
-                        <span class="text-zinc-400 font-semibold text-sm">Nm</span>
-                    </div>
-                </div>
-                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 shadow-lg">
-                    <div class="text-zinc-400 text-xs font-semibold uppercase tracking-wider">Aktivni pogon / Delovna točka</div>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <span id="p-res-summary" class="text-xl font-bold font-mono-num text-cyan-400">-</span>
-                    </div>
-                </div>
-            </section>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <div class="lg:col-span-6 space-y-5">
-                    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 shadow-lg space-y-4">
-                        <h2 class="text-xs font-bold uppercase tracking-wider text-orange-400">Kataloški izbor ali ročni vnos motorja</h2>
-                        
-                        <div class="space-y-3">
-                            <div>
-                                <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-1.5">Hitri izbor standardnih moči:</label>
-                                <div class="flex flex-wrap gap-1.5">
-                                    <button type="button" onclick="setPowerMotor(0.09, 2750)" class="text-xs bg-zinc-950 hover:bg-zinc-800 text-zinc-300 px-2.5 py-1 rounded border border-zinc-700 transition font-mono-num">0.09 kW</button>
-                                    <button type="button" onclick="setPowerMotor(0.18, 1380)" class="text-xs bg-zinc-950 hover:bg-zinc-800 text-zinc-300 px-2.5 py-1 rounded border border-zinc-700 transition font-mono-num">0.18 kW</button>
-                                    <button type="button" onclick="setPowerMotor(0.37, 1380)" class="text-xs bg-zinc-950 hover:bg-zinc-800 text-zinc-300 px-2.5 py-1 rounded border border-zinc-700 transition font-mono-num">0.37 kW</button>
-                                    <button type="button" onclick="setPowerMotor(0.75, 1410)" class="text-xs bg-zinc-950 hover:bg-zinc-800 text-zinc-300 px-2.5 py-1 rounded border border-zinc-700 transition font-mono-num">0.75 kW</button>
-                                    <button type="button" onclick="setPowerMotor(1.5, 1420)" class="text-xs bg-zinc-950 hover:bg-zinc-800 text-zinc-300 px-2.5 py-1 rounded border border-zinc-700 transition font-mono-num">1.5 kW</button>
-                                    <button type="button" onclick="setPowerMotor(3.0, 1450)" class="text-xs bg-zinc-950 hover:bg-zinc-800 text-zinc-300 px-2.5 py-1 rounded border border-zinc-700 transition font-mono-num">3.0 kW</button>
-                                    <button type="button" onclick="setPowerMotor(5.5, 1450)" class="text-xs bg-zinc-950 hover:bg-zinc-800 text-zinc-300 px-2.5 py-1 rounded border border-zinc-700 transition font-mono-num">5.5 kW</button>
-                                    <button type="button" onclick="setPowerMotor(7.5, 1460)" class="text-xs bg-zinc-950 hover:bg-zinc-800 text-zinc-300 px-2.5 py-1 rounded border border-zinc-700 transition font-mono-num">7.5 kW</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="space-y-4 pt-2 border-t border-zinc-800">
-                            <div>
-                                <label class="block text-xs font-medium text-zinc-300 mb-1">Moč motorja (P) [kW]</label>
-                                <input type="number" id="p-power" value="3.0" min="0" step="0.01" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs font-mono-num text-white focus:outline-none focus:border-orange-500 calc-trigger">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-zinc-300 mb-1">Vrtljaji gredi (n) [min⁻¹]</label>
-                                <input type="number" id="p-n" value="1450" min="1" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs font-mono-num text-white focus:outline-none focus:border-orange-500 calc-trigger">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-6 space-y-5">
-                    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 shadow-lg space-y-3">
-                        <h2 class="text-xs font-bold uppercase tracking-wider text-white">Navodila &amp; Možne rešitve</h2>
-                        <div class="bg-zinc-950 p-4 rounded-lg border border-zinc-800 space-y-3 text-xs text-zinc-300">
-                            <p>• <strong>Navodilo:</strong> Uporabite bližnjice standardnih moči ali vpišite točne podatke s tablice elektromotorja. Formula temelji na razmerju $M = 9550 \cdot P / n$.</p>
-                            <p>• <strong>Rešitev 1 (Standardni asinhroni motor):</strong> Robustna izbira za neprekinjeno delovanje (S1) z direktnim priklopom na omrežje.</p>
-                            <p>• <strong>Rešitev 2 (Motor z VFD krmiljenjem):</strong> Priporočljivo za aplikacije, kjer so potrebni mehki zagoni, kontrolirani časi pospeševanja ali spremenljive hitrosti transporta.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. SERVOPOGONI -->
-        <div id="tab-servos" class="hidden fade-in space-y-6">
-            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div class="bg-zinc-900 border border-orange-500/30 rounded-xl p-5 shadow-lg relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-1.5 h-full bg-orange-500"></div>
-                    <div class="text-zinc-400 text-xs font-semibold uppercase tracking-wider">Efektivni navor (M_rms)</div>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <span id="s-res-mrms" class="text-4xl font-extrabold font-mono-num text-orange-400">-</span>
-                        <span class="text-zinc-400 font-semibold text-sm">Nm</span>
-                    </div>
-                </div>
-                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 shadow-lg">
-                    <div class="text-zinc-400 text-xs font-semibold uppercase tracking-wider">Vršna moč (P_peak)</div>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <span id="s-res-ppeak" class="text-3xl font-bold font-mono-num text-cyan-400">-</span>
-                        <span class="text-zinc-400 font-semibold text-sm">kW</span>
-                    </div>
-                </div>
-                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 shadow-lg">
-                    <div class="text-zinc-400 text-xs font-semibold uppercase tracking-wider">Razmerje vztrajnosti (J_load / J_motor)</div>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <span id="s-res-ratio" class="text-3xl font-bold font-mono-num text-emerald-400">-</span>
-                    </div>
-                </div>
-            </section>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <div class="lg:col-span-6 space-y-5">
-                    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 shadow-lg space-y-4">
-                        <h2 class="text-xs font-bold uppercase tracking-wider text-orange-400">Vnos parametrov servomotorja in bremena</h2>
-                        
-                        <div class="space-y-3">
-                            <div>
-                                <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-1.5">Prednastavljeni primeri aplikacij:</label>
-                                <div class="flex flex-wrap gap-1.5">
-                                    <button type="button" onclick="setServoParams(2.1, 3000, 4.5, 0.8)" class="text-xs bg-zinc-950 hover:bg-zinc-800 text-zinc-300 px-2.5 py-1 rounded border border-zinc-700 transition">Manjša os (400W)</button>
-                                    <button type="button" onclick="setServoParams(6.4, 3000, 18.0, 2.9)" class="text-xs bg-zinc-950 hover:bg-zinc-800 text-zinc-300 px-2.5 py-1 rounded border border-zinc-700 transition">Srednja os (1.0kW)</button>
-                                    <button type="button" onclick="setServoParams(15.0, 2500, 45.0, 7.8)" class="text-xs bg-zinc-950 hover:bg-zinc-800 text-zinc-300 px-2.5 py-1 rounded border border-zinc-700 transition">Težka robotska os (3.0kW)</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-zinc-800">
-                            <div>
-                                <label class="block text-xs font-medium text-zinc-300 mb-1">Maks. navor bremena (M_max) [Nm]</label>
-                                <input type="number" id="s-mmax" value="6.4" min="0" step="0.1" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs font-mono-num text-white focus:outline-none focus:border-orange-500 calc-trigger">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-zinc-300 mb-1">Maks. hitrost (n_max) [min⁻¹]</label>
-                                <input type="number" id="s-nmax" value="3000" min="1" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs font-mono-num text-white focus:outline-none focus:border-orange-500 calc-trigger">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-zinc-300 mb-1">Vztrajnost bremena (J_load) [kg·cm²]</label>
-                                <input type="number" id="s-jload" value="18.0" min="0" step="0.1" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs font-mono-num text-white focus:outline-none focus:border-orange-500 calc-trigger">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-zinc-300 mb-1">Vztrajnost motorja (J_motor) [kg·cm²]</label>
-                                <input type="number" id="s-jmotor" value="2.9" min="0.01" step="0.1" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs font-mono-num text-white focus:outline-none focus:border-orange-500 calc-trigger">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-6 space-y-5">
-                    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 shadow-lg space-y-3">
-                        <h2 class="text-xs font-bold uppercase tracking-wider text-white">Navodila &amp; Možne rešitve</h2>
-                        <div class="bg-zinc-950 p-4 rounded-lg border border-zinc-800 space-y-3 text-xs text-zinc-300">
-                            <p>• <strong>Navodilo:</strong> Vnesite podatke o dinamičnih obremenitvah, hitrostih ter vztrajnostnih momentih za oceno ustreznosti pogona.</p>
-                            <p>• <strong>Rešitev 1 (Neposredni brezzračnostni servopogon):</strong> Idealno, če je razmerje vztrajnosti pod priporočeno mejo (običajno pod 10:1 za visoko dinamična krmiljenja).</p>
-                            <p>• <strong>Rešitev 2 (Servomotor s planetnim reduktorjem):</strong> Če razmerje vztrajnosti presega priporočila ali navor ni zadosten, vgradite reduktor s prestavnim razmerjem $i$. Vztrajnost bremena se na gredi motorja deli s kvadratom prestavnega razmerja ($i^2$).</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 4. JERMENSKI / VERIŽNI POGON -->
-        <div id="tab-belts" class="hidden fade-in space-y-6">
-            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-zinc-900 border border-orange-500/30 rounded-xl p-5 shadow-lg relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-1.5 h-full bg-orange-500"></div>
-                    <div class="text-zinc-400 text-xs font-semibold uppercase tracking-wider">Vhodni navor (M₁)</div>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <span id="b-res-m1" class="text-3xl font-extrabold font-mono-num text-orange-400">-</span>
-                        <span class="text-zinc-400 font-semibold text-sm">Nm</span>
-                    </div>
-                </div>
-                <div class="bg-zinc-900 border border-orange-500/30 rounded-xl p-5 shadow-lg relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-1.5 h-full bg-amber-500"></div>
-                    <div class="text-zinc-400 text-xs font-semibold uppercase tracking-wider">Izhodni navor (M₂)</div>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <span id="b-res-m2" class="text-3xl font-extrabold font-mono-num text-amber-400">-</span>
-                        <span class="text-zinc-400 font-semibold text-sm">Nm</span>
-                    </div>
-                </div>
-                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 shadow-lg">
-                    <div class="text-zinc-400 text-xs font-semibold uppercase tracking-wider">Obodna hitrost (v)</div>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <span id="b-res-v" class="text-3xl font-bold font-mono-num text-emerald-400">-</span>
-                        <span class="text-zinc-400 font-semibold text-sm">m/s</span>
-                    </div>
-                </div>
-                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 shadow-lg">
-                    <div class="text-zinc-400 text-xs font-semibold uppercase tracking-wider">Dolžina jermena (L)</div>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <span id="b-res-L" class="text-3xl font-bold font-mono-num text-zinc-100">-</span>
-                        <span class="text-zinc-400 font-semibold text-sm">mm</span>
-                    </div>
-                </div>
-            </section>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <div class="lg:col-span-7 space-y-5">
-                    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 shadow-lg space-y-4">
-                        <h2 class="text-xs font-bold uppercase tracking-wider text-orange-400">Geometrija in moč pogona</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-medium text-zinc-300 mb-1">Premer pogon. jermenice (d₁) [mm]</label>
-                                <input type="number" id="b-d1" value="100" min="1" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs font-mono-num text-white focus:outline-none focus:border-orange-500 calc-trigger">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-zinc-300 mb-1">Premer gnane jermenice (d₂) [mm]</label>
-                                <input type="number" id="b-d2" value="250" min="1" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs font-mono-num text-white focus:outline-none focus:border-orange-500 calc-trigger">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-zinc-300 mb-1">Osna razdalja (a) [mm]</label>
-                                <input type="number" id="b-a" value="400" min="1" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs font-mono-num text-white focus:outline-none focus:border-orange-500 calc-trigger">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-zinc-300 mb-1">Mehanski izkoristek (η) [%]</label>
-                                <input type="number" id="b-eff" value="95" min="1" max="100" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs font-mono-num text-white focus:outline-none focus:border-orange-500 calc-trigger">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-zinc-300 mb-1">Vhodna moč (P₁) [kW]</label>
-                                <input type="number" id="b-p1" value="3.0" min="0" step="0.1" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs font-mono-num text-white focus:outline-none focus:border-orange-500 calc-trigger">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-zinc-300 mb-1">Vhodni vrtljaji (n₁) [min⁻¹]</label>
-                                <input type="number" id="b-n1" value="1450" min="1" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs font-mono-num text-white focus:outline-none focus:border-orange-500 calc-trigger">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-5 space-y-5">
-                    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 shadow-lg space-y-3">
-                        <h2 class="text-xs font-bold uppercase tracking-wider text-white">Navodila &amp; Možne rešitve</h2>
-                        <div class="bg-zinc-950 p-4 rounded-lg border border-zinc-800 space-y-3 text-xs text-zinc-300">
-                            <p>• <strong>Navodilo:</strong> Vnesite premere jermenica/veriznikov, medosno razdaljo, vhodno moč in vrtljaje. Aplikacija izračuna vstopni in izhodni navor ter obodno hitrost.</p>
-                            <p>• <strong>Rešitev 1 (Zobati jermeni):</strong> Omogočajo natančen sinhroni prenos brez zdrsa, kar je ključno za pozicionirne transportne linije.</p>
-                            <p>• <strong>Rešitev 2 (Klinasti ali verižni pogoni):</strong> Primerno za prenos večjih moči z ublažitvijo sunkovitih obremenitev; pri verigah je potrebno upoštevati mazanje in poligonski učinek pri manjšem številu zob.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <script>
-        function parseSloFloat(valueStr) {
-            if (typeof valueStr !== 'string') valueStr = String(valueStr);
-            const normalized = valueStr.replace(',', '.');
-            const val = parseFloat(normalized);
-            return isNaN(val) ? 0 : val;
-        }
-
-        function formatSlo(num, decimals = 1) {
-            if (isNaN(num) || !isFinite(num)) return '-';
-            return num.toLocaleString('sl-SI', {
-                minimumFractionDigits: decimals,
-                maximumFractionDigits: decimals
-            });
-        }
-
-        const tabs = ['gears', 'power', 'servos', 'belts'];
-        
-        function switchTab(activeTab) {
-            tabs.forEach(tab => {
-                const btn = document.getElementById(`btn-${tab}`);
-                const content = document.getElementById(`tab-${tab}`);
-                
-                if (tab === activeTab) {
-                    btn.className = "tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs border bg-orange-500 text-zinc-950 border-orange-400 shadow-lg";
-                    content.classList.remove('hidden');
-                    content.classList.add('fade-in');
-                } else {
-                    btn.className = "tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs border bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-white";
-                    content.classList.add('hidden');
-                    content.classList.remove('fade-in');
-                }
-            });
-            calculateAll();
-        }
-
-        function getVal(id) {
-            return parseSloFloat(document.getElementById(id).value);
-        }
-
-        function setPowerMotor(powerKW, rpm) {
-            document.getElementById('p-power').value = powerKW;
-            document.getElementById('p-n').value = rpm;
-            calculatePower();
-        }
-
-        function setServoParams(mmax, nmax, jload, jmotor) {
-            document.getElementById('s-mmax').value = mmax;
-            document.getElementById('s-nmax').value = nmax;
-            document.getElementById('s-jload').value = jload;
-            document.getElementById('s-jmotor').value = jmotor;
-            calculateServos();
-        }
-
-        function calculateGears() {
-            const z1 = getVal('g-z1');
-            const z2 = getVal('g-z2');
-            const n1 = getVal('g-n1');
-            const warningBox = document.getElementById('g-warning');
-
-            if (z1 > 0) {
-                const i = z2 / z1;
-                document.getElementById('g-res-i').innerText = formatSlo(i, 2);
-                
-                if (i > 7.0) {
-                    warningBox.classList.remove('hidden');
-                } else {
-                    warningBox.classList.add('hidden');
-                }
-
-                if (i > 0) {
-                    const n2 = n1 / i;
-                    document.getElementById('g-res-n2').innerText = formatSlo(n2, 1);
-                } else {
-                    document.getElementById('g-res-n2').innerText = '-';
-                }
-            } else {
-                document.getElementById('g-res-i').innerText = '-';
-                document.getElementById('g-res-n2').innerText = '-';
-                warningBox.classList.add('hidden');
-            }
-        }
-
-        function calculatePower() {
-            const p = getVal('p-power');
-            const n = getVal('p-n');
-
-            if (n > 0) {
-                const m = 9550 * (p / n);
-                document.getElementById('p-res-m').innerText = formatSlo(m, 2);
-                document.getElementById('p-res-summary').innerText = `${formatSlo(p, 2)} kW / ${formatSlo(n, 0)} RPM`;
-            } else {
-                document.getElementById('p-res-m').innerText = '-';
-                document.getElementById('p-res-summary').innerText = '-';
-            }
-        }
-
-        function calculateServos() {
-            const mmax = getVal('s-mmax');
-            const nmax = getVal('s-nmax');
-            const jload = getVal('s-jload');
-            const jmotor = getVal('s-jmotor');
-
-            if (jmotor > 0) {
-                const ratio = jload / jmotor;
-                document.getElementById('s-res-ratio').innerText = `${formatSlo(ratio, 1)} : 1`;
-
-                const mrms = mmax * 0.707;
-                document.getElementById('s-res-mrms').innerText = formatSlo(mrms, 2);
-
-                const ppeak = (mmax * nmax) / 9550;
-                document.getElementById('s-res-ppeak').innerText = formatSlo(ppeak, 2);
-            } else {
-                document.getElementById('s-res-ratio').innerText = '-';
-                document.getElementById('s-res-mrms').innerText = '-';
-                document.getElementById('s-res-ppeak').innerText = '-';
-            }
-        }
-
-        function calculateBelts() {
-            const d1 = getVal('b-d1');
-            const d2 = getVal('b-d2');
-            const a = getVal('b-a');
-            const p1 = getVal('b-p1');
-            const n1 = getVal('b-n1');
-            const eff = getVal('b-eff') / 100;
-
-            if (d1 > 0 && n1 > 0) {
-                const i = d2 / d1;
-                
-                const n2 = n1 / i;
-                const v = (d1 * Math.PI * n1) / 60000;
-                document.getElementById('b-res-v').innerText = formatSlo(v, 2);
-
-                if (a > 0) {
-                    const L = 2 * a + 1.57 * (d1 + d2) + Math.pow(d2 - d1, 2) / (4 * a);
-                    document.getElementById('b-res-L').innerText = formatSlo(L, 0);
-                } else {
-                    document.getElementById('b-res-L').innerText = '-';
-                }
-
-                const m1 = 9550 * (p1 / n1);
-                document.getElementById('b-res-m1').innerText = `${formatSlo(m1, 2)} Nm`;
-
-                const p2 = p1 * eff;
-                const m2 = n2 > 0 ? 9550 * (p2 / n2) : 0;
-                document.getElementById('b-res-m2').innerText = `${formatSlo(m2, 2)} Nm`;
-            } else {
-                document.getElementById('b-res-v').innerText = '-';
-                document.getElementById('b-res-L').innerText = '-';
-                document.getElementById('b-res-m1').innerText = '-';
-                document.getElementById('b-res-m2').innerText = '-';
-            }
-        }
-
-        function calculateAll() {
-            calculateGears();
-            calculatePower();
-            calculateServos();
-            calculateBelts();
-        }
-
-        document.querySelectorAll('.calc-trigger').forEach(input => {
-            input.addEventListener('input', calculateAll);
-        });
-
-        calculateAll();
-    </script>
-</body>
-</html>
+'use strict';
+const $=id=>document.getElementById(id),$$=(s,r=document)=>[...r.querySelectorAll(s)],names={gears:'Zobniški prenos',power:'Moč in navor',servos:'Servopogoni',belts:'Jermenski / verižni pogon'},short={gears:'g',power:'p',servos:'s',belts:'b'},fieldMeta={},results={},examples={gears:false,power:false,servos:false,belts:false},touched=new Set();
+let active='gears',segments=[],editing=null,segmentHistory=[],themePreference='auto',toastTimer,confirmAction=null;
+const ICONS={gears:'M9 3h6l1 3 3 1 2 5-2 5-3 1-1 3H9l-1-3-3-1-2-5 2-5 3-1 1-3ZM16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z',power:'M13 2 4 14h7l-1 8 10-13h-7V2',servo:'M4 6h13v12H4zM17 10h5v4h-5M2 9h2m-2 6h2M8 6V3h5v3M8 21v-3h5v3',belt:'M7 6a6 6 0 1 0 0 12h10a6 6 0 0 0 0-12H7Zm3 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm10 0a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z',save:'M5 3h12l4 4v14H3V3h2ZM7 3v6h10V3M7 21v-7h10v7',upload:'M12 16V3m-5 5 5-5 5 5M3 15v6h18v-6',download:'M12 3v13m-5-5 5 5 5-5M3 16v5h18v-5',file:'M5 3h9l5 5v13H5zM14 3v6h5M8 13h8M8 17h5',print:'M6 8V3h12v5M6 17H3V8h18v9h-3M6 14h12v7H6zM17 11h1',copy:'M8 7h13v14H8zM16 7V3H3v14h5',table:'M3 3h18v18H3zM3 9h18M3 15h18M9 3v18M15 3v18',sun:'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4',moon:'M21 13a9 9 0 1 1-10-10 7 7 0 0 0 10 10Z',help:'M9 8a3 3 0 1 1 4 3c-1 .5-1 1-1 3m0 3v.1M22 12A10 10 0 1 1 2 12a10 10 0 0 1 20 0Z',info:'M12 8v.1M12 11v6M22 12A10 10 0 1 1 2 12a10 10 0 0 1 20 0Z',close:'m6 6 12 12M6 18 18 6',reset:'M4 8a9 9 0 1 1-1 7M4 3v6h6',sample:'M9 3h6m-5 0v7L4 20h16l-6-10V3M8 15h8',plus:'M12 5v14M5 12h14',edit:'m14 4 6 6M4 20l1-6L16 3a2 2 0 0 1 5 5L10 19l-6 1Z',trash:'M4 7h16M9 7V3h6v4M6 7l1 14h10l1-14M10 11v6m4-6v6',up:'M12 20V4m-6 6 6-6 6 6',down:'M12 4v16m-6-6 6 6 6-6',undo:'M8 5 3 10l5 5M3 10h11a6 6 0 0 1 0 12'};
+const icon=n=>`<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="${ICONS[n]||ICONS.info}"/></svg>`,esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function fmt(n,d=4){if(n==null||!Number.isFinite(Number(n)))return'—';return Number(n).toLocaleString('sl-SI',Math.abs(n)>0&&Math.abs(n)<.0001?{maximumSignificantDigits:6}:{maximumFractionDigits:d})}
+function plain(value,power=0){const str=String(value).replace(',','.'),[mantissa,exp='0']=str.split(/e/i),negative=mantissa.startsWith('-'),[whole,fraction='']=mantissa.replace(/^[-+]/,'').split('.'),digits=(whole||'0')+fraction,point=(whole||'0').length+Number(exp)+power;let out=point<=0?'0.'+'0'.repeat(-point)+digits:point>=digits.length?digits+'0'.repeat(point-digits.length):digits.slice(0,point)+'.'+digits.slice(point);out=out.replace(/^0+(?=\d)/,'').replace(/(\.\d*?)0+$/,'$1').replace(/\.$/,'');return(negative?'-':'')+out.replace('.',',')}
+function number(id,label,unit='',help='',optional=false,value=''){fieldMeta[id]={label,unit,type:'number',optional,default:value};return `<div class="field" id="field-${id}"><label for="${id}">${label} <span class="unit">${unit?'['+unit+']':''}</span></label><input id="${id}" type="text" inputmode="decimal" data-save data-number title="Decimalna vejica ali pika; brez ločil tisočic." value="${value}" placeholder="${optional?'Neobvezno':'Vnesite vrednost'}" maxlength="30" autocomplete="off" aria-describedby="hint-${id} error-${id}"><small id="hint-${id}">${help}</small><small class="error" id="error-${id}"></small></div>`}
+function select(id,label,options,help=''){fieldMeta[id]={label,type:'select',options:options.map(x=>x[0]),default:options[0][0]};return `<div class="field" id="field-${id}"><label for="${id}">${label}</label><select id="${id}" data-save>${options.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('')}</select><small>${help}</small></div>`}
+function source(k){const id=short[k]+'-source';fieldMeta[id]={label:'Vir podatkov / komponente',type:'text',default:''};return `<label for="${id}">Vir podatkov / komponente</label><textarea id="${id}" data-save rows="2" maxlength="1600" placeholder="Oznake naprav, kataloške vrednosti, meritve in pogoji ..."></textarea>`}
+function card(step,title,body,note=''){return `<section class="card"><div class="card-head"><div class="step-title"><span class="step-num">${step}</span><h2>${title}</h2></div></div><div class="card-body">${body}</div>${note?`<div class="card-note">${note}</div>`:''}</section>`}
+function details(title,body){return `<details class="card"><summary class="details-head">${title}</summary><div class="card-body">${body}</div></details>`}
+function pairs(rows){return `<ul class="calc-pairs">${rows.map(([a,b])=>`<li><span>${a}</span><b>${b}</b></li>`).join('')}</ul>`}
+function metrics(k,items){$(k+'-kpis').innerHTML=items.map(([label,value,unit,hint=''])=>`<div class="drive-kpi"><small>${label}</small><div class="number">${value}<span class="unit">${unit}</span></div><div class="kpi-hint">${hint}</div></div>`).join('')}
+function output(k){return `<section class="card drive-result-card"><div class="card-head"><h2>Rezultat preračuna</h2><span class="pill" id="${k}-badge">Čaka na podatke</span></div><div class="drive-kpis" id="${k}-kpis"></div><div class="calc-message" id="${k}-message"></div></section><section class="card"><div class="card-head"><h2>${k==='servos'?'Navor skozi cikel':'Shema prenosa'}</h2><span class="source-tag">${k==='servos'?'Konstantni segmenti':'Shematski prikaz'}</span></div><div class="drive-drawing" id="${k}-drawing" role="region" aria-label="Shema prenosa; na ozkem zaslonu se pomikajte vodoravno" tabindex="0"></div><div class="diagram-pan-tip">Za celoten prikaz pomaknite shemo vodoravno ↔</div><div class="diagram-foot"><span>${k==='servos'?'Navor na gredi motorja':'Shematsko, ni v merilu'}</span><span>${k==='servos'?'Čas [s] · navor [Nm]':'Geometrijski model'}</span></div></section><section class="card"><div class="card-head"><h2>Potek izračuna</h2></div><div class="card-body" id="${k}-calculation"></div></section>`}
+function buildPanel(k){let left='',right=output(k);if(k==='gears'){
+ left=card(1,'Kinematika in prenos navora',`<div class="fields">${number('g-z1','Zobje pogonskega zobnika','','Pozitivno celo število.')}${number('g-z2','Zobje gnanega zobnika','','Pozitivno celo število.')}${number('g-n1','Vhodni vrtljaji','min⁻¹')}${number('g-torque','Vhodni navor','Nm','Neobvezno; določi izhodni navor.',true)}${number('g-eff','Izkoristek prenosa','%','100 % pomeni idealni prenos.',false,'100')}${number('g-module','Modul zobnikov','mm','Samo standardni čelni par brez profilnega pomika.',true)}</div>`,'Zunanja zobnika se vrtita v nasprotnih smereh. Izračun ne preverja trdnosti ali izvedljivosti ozobja.')+details('Podlaga za izračun',source(k));
+ right+=details('Metoda in omejitve',`<div class="formula">i = z₂ / z₁<br>n₂ = n₁ / i<br>M₂ = M₁ × i × η<br>d = m × z; a = (d₁ + d₂) / 2</div><p class="inline-note">Izkoristek je uporabnikov vhod. Splošna meja 7 : 1 ne določa pravilnosti izbire. Za geometrijo so privzeti zunanji čelni zobniki z enakim modulom, brez profilnega pomika. Preverite obliko zob, spodrezanje, trdnost, aksialne in radialne sile, toleranco ter mazanje.</p>`);
+ }else if(k==='power'){
+ left=card(1,'Delovna točka iste gredi',`<div class="fields">${select('p-solve','Kaj želite izračunati?',[['torque','Navor iz moči in vrtljajev'],['power','Moč iz navora in vrtljajev'],['speed','Vrtljaje iz moči in navora']])}</div><p id="p-unknown"></p><div class="subheading">Hitri vnos mehanske moči [kW]</div><div class="quick-powers">${[.09,.18,.37,.75,1.5,3,5.5,7.5].map(v=>`<button type="button" data-power="${v}">${fmt(v)}</button>`).join('')}</div><div class="fields">${number('p-power','Mehanska moč na gredi','kW','Ne električna moč iz napajanja.')}${number('p-torque','Navor na gredi','Nm')}${number('p-rpm','Vrtljaji gredi','min⁻¹')}</div>`,'Bližnjice vnesejo samo moč. Vrtljaji niso vezani na domnevni model motorja.')+details('Podlaga za izračun',source(k));
+ right+=details('Metoda in omejitve',`<div class="formula">P = M × n × 2π / 60000<br>M = P × 60000 / (2π × n)</div><p class="inline-note">P v kW, M v Nm, n v min⁻¹. Uporabljen je faktor 60000 / (2π), približno 9549,2966. Gre za velikosti pri isti delovni točki. Pri mirovanju je mehanska moč 0, iz tega pa ni mogoče sklepati na navor. Zagonski, držalni in preobremenitveni navor zahtevajo druge podatke.</p>`);
+ }else if(k==='servos'){
+ left=card(1,'Vztrajnost na gredi motorja',`<div class="fields">${select('s-unit','Enota vztrajnosti',[['kgcm2','kg·cm²'],['kgm2','kg·m²']],'Ob menjavi enote se vnesene vrednosti pretvorijo.')}${number('s-ratio','Prestavno razmerje','','i = vrtljaji motorja / vrtljaji bremena.',false,'1')}${number('s-load','Vztrajnost bremena','kg·cm²')}${number('s-motor','Vztrajnost rotorja motorja','kg·cm²')}${number('s-trans','Vztrajnost prenosa pri motorju','kg·cm²','Vrednost je že preračunana na stran motorja.',false,'0')}${number('s-limit','Meja razmerja po proizvajalcu','','Neobvezno; ni univerzalne dovoljene meje.',true)}</div>`)+
+ card(2,'Časovni profil navora',`<form id="segment-form" novalidate><div class="segment-form-head"><b id="segment-title">Nov segment</b><button class="btn btn-quiet" id="cancel-segment" type="button" hidden>Prekliči</button></div><div class="fields"><div class="field full"><label for="seg-name">Naziv segmenta</label><input id="seg-name" maxlength="120" placeholder="npr. Delovanje pod obremenitvijo"></div><div class="field"><label for="seg-time">Trajanje [s]</label><input id="seg-time" inputmode="decimal" maxlength="30" placeholder="npr. 0,200"></div><div class="field"><label for="seg-torque">Navor motorja [Nm]</label><input id="seg-torque" inputmode="text" maxlength="30" placeholder="Predznačen navor"></div><div class="field"><label for="seg-speed">Sočasni vrtljaji [min⁻¹]</label><input id="seg-speed" inputmode="text" maxlength="30" placeholder="Neobvezno"></div></div><p class="form-error" id="segment-error" role="alert"></p><button class="btn btn-primary add-segment" type="submit">${icon('plus')}<span id="segment-submit-label">Dodaj segment</span></button></form><p class="servo-note">Vsi navori so na gredi motorja, s predznakom. Vključite tudi držalni navor med mirovanjem. V posameznem segmentu predpostavljamo konstanten navor.</p><div class="small-toolbar" style="margin-top:12px"><button class="btn btn-quiet" id="undo-segment" disabled>${icon('undo')}Razveljavi</button><button class="btn btn-quiet" id="clear-segments">${icon('trash')}Počisti profil</button></div><div class="servo-list" id="servo-list"></div>`)+
+ details('Meje konkretnega motorja — neobvezno',`<div class="fields">${number('s-rated','Nazivni navor motorja','Nm','Podatek pri ustreznih pogojih hlajenja in hitrosti.',true)}${number('s-peak-limit','Meja vršnega navora','Nm','Preverite tudi dovoljeno trajanje.',true)}${number('s-rpm-limit','Meja hitrosti motorja','min⁻¹','Preverite hitrostno-navorno krivuljo.',true)}</div><div id="servo-checks" class="checks"></div><p class="inline-note">Posamezne primerjave niso potrditev ustreznosti motorja ali krmilnika.</p>`)+details('Podlaga za izračun',source(k));
+ right+=details('Metoda in omejitve',`<div class="formula">M<sub>RMS</sub> = √(Σ Mⱼ²tⱼ / Σ tⱼ)<br>M<sub>vrh</sub> = max |Mⱼ|<br>J<sub>pri motorju</sub> = J<sub>bremena</sub> / i² + J<sub>prenosa</sub></div><p class="inline-note">RMS se ne določa iz največjega navora s konstantnim faktorjem. Mehanska moč se računa iz sočasnih navorov in hitrosti segmentov. Če katera hitrost manjka, skupni vrh moči ni določen. Pri spremenljivi hitrosti znotraj segmenta se dejanski vrh lahko razlikuje.</p><p class="inline-note">Pretvorba: 1 kg·cm² = 0,0001 kg·m². Razmerje vztrajnosti ne vključuje rotorja motorja v števec. Preverite celotno krivuljo navor–hitrost, termiko, preobremenitve in regenerativno energijo; ta kalkulator jih ne potrjuje.</p>`);
+ }else{
+ left=card(1,'Vrsta in geometrija prenosa',`<div class="fields">${select('b-kind','Vrsta prenosa',[['smooth','Gladki jermen — efektivni premeri'],['timing','Zobati jermen — korak in zobje'],['chain','Valjčna veriga — korak in zobje']])}${number('b-d1','Pogonski delilni premer','mm','Efektivni premer, ne zunanji premer.')}${number('b-d2','Gnani delilni premer','mm','Efektivni premer, ne zunanji premer.')}${number('b-pitch','Korak','mm')}${number('b-z1','Zobje pogonskega kolesa','','Pozitivno celo število; pri verigi najmanj 3.')}${number('b-z2','Zobje gnanega kolesa','','Pozitivno celo število; pri verigi najmanj 3.')}${number('b-center','Medosna razdalja','mm','Več kot vsota polmerov delilnih krogov.')}${number('b-rpm','Vhodni vrtljaji','min⁻¹')}</div>`)+
+ card(2,'Moč in izbor dolžine',`<div class="fields">${number('b-power','Vhodna mehanska moč','kW','Neobvezno; za navor in efektivno obodno silo.',true)}${number('b-eff','Izkoristek prenosa','%','Uporabnikova predpostavka.',false,'100')}${number('b-length','Izbrana delilna dolžina','mm','Neobvezno; preračuna geometrijsko medosno razdaljo.',true)}${number('b-links','Izbrano število členov','','Neobvezno; pozitivno sodo celo število.',true)}</div><p class="input-info" id="belt-input-note"></p>`)+details('Podlaga za izračun',source(k));
+ right+=details('Metoda in omejitve',`<div id="belt-method"></div><p class="inline-note">Izračun dolžine ne izbira širine ali profila jermena, velikosti verige ali dovoljene moči. Preverite dejanske zunanje premere, delovanje pri sunkih, mazanje, napenjanje, število zob v prijemu in zahteve proizvajalca.</p><p class="inline-note">Efektivna obodna sila F = 1000P/v je razlika sil v vejah prenosa, ne prednapetost ali obremenitev ležajev.</p>`);
+ }
+ const descriptions={gears:'Razmerje, vrtljaji, prenos navora in osnovna geometrija enega zunanjega para.',power:'Izračun ene veličine iz drugih dveh pri isti mehanski delovni točki.',servos:'Efektivni in vršni navor iz cikla ter vztrajnost bremena, preračunana na motor.',belts:'Ločeni geometrijski modeli za gladki jermen, zobati jermen in valjčno verigo.'};
+ return `<section id="panel-${k}" role="tabpanel" aria-labelledby="tab-${k}" ${k!=='gears'?'hidden':''}><div class="section-heading"><div><div class="strip" style="margin-bottom:8px"><span class="pill">Projektantski preračun</span><span class="pill warn" id="${k}-example" hidden>Vzorčni podatki</span></div><h1>${names[k]}</h1><p>${descriptions[k]}</p></div><div class="section-actions"><button class="btn btn-quiet" data-example="${k}">${icon('sample')}Vstavi primer</button><button class="btn btn-quiet" data-reset="${k}" title="Počisti modul" aria-label="Počisti modul ${names[k]}">${icon('reset')}</button></div></div><div class="drive-workspace"><div class="stack">${left}</div><div class="stack">${right}</div></div></section>`}
+function read(id,errors,{optional=false,min=0,max=1e12,integer=false,positive=false}={}){const e=$(id),text=e.value.trim();if(!text){if(!optional)errors.push({id,missing:true,message:'Vnesite vrednost.'});return null}try{const n=DriveCore.parseNumber(text,{min,max,integer,label:fieldMeta[id]?.label||id});if(positive&&n===0)throw Error('Vrednost mora biti večja od 0.');return n}catch(err){errors.push({id,missing:false,message:err.message});return null}}
+function visible(id,show){$('field-'+id).hidden=!show}
+function updateVisibility(){const solve=$('p-solve').value,unknown={torque:'p-torque',power:'p-power',speed:'p-rpm'}[solve];for(const id of ['p-power','p-torque','p-rpm']){$(id).disabled=id===unknown;$('field-'+id).classList.toggle('input-calculated',id===unknown)}$('p-unknown').textContent='Izračunana veličina: '+fieldMeta[unknown].label+'.';$$('[data-power]').forEach(b=>b.disabled=solve==='power');const kind=$('b-kind').value;for(const id of ['b-d1','b-d2'])visible(id,kind==='smooth');for(const id of ['b-pitch','b-z1','b-z2'])visible(id,kind!=='smooth');visible('b-length',kind!=='chain');visible('b-links',kind==='chain');$('belt-input-note').textContent=kind==='chain'?'Dolžina verige in popravljena medosna razdalja sta približna. Predlagano sodo število členov zahteva nastavitev medosne razdalje.':'Model odprtega jermena z dvema kolesoma, brez zdrsa in brez napenjalnega kolesa. Geometrijska dolžina ne vključuje raztezka ali montažne napetosti.';for(const id of ['s-load','s-motor','s-trans'])document.querySelector(`label[for="${id}"] .unit`).textContent=$('s-unit').value==='kgcm2'?'[kg·cm²]':'[kg·m²]';}
+function evaluate(k){const errors=[];let value=null;try{if(k==='gears'){const z1=read('g-z1',errors,{min:1,integer:true}),z2=read('g-z2',errors,{min:1,integer:true}),n1=read('g-n1',errors),torque1=read('g-torque',errors,{optional:true}),efficiency=read('g-eff',errors,{max:100}),module=read('g-module',errors,{optional:true,positive:true});if(!errors.length)value=DriveCore.gear({z1,z2,n1,torque1,efficiency,module})}
+ if(k==='power'){const solve=$('p-solve').value;let powerKW=null,torqueNm=null,rpm=null;if(solve!=='power')powerKW=read('p-power',errors);if(solve!=='torque')torqueNm=read('p-torque',errors,{positive:solve==='speed'});if(solve!=='speed')rpm=read('p-rpm',errors,{positive:solve==='torque'});if(!errors.length)value=DriveCore.power({solve,powerKW,torqueNm,rpm});const id={torque:'p-torque',power:'p-power',speed:'p-rpm'}[solve];const calculated=value?value[solve==='torque'?'torqueNm':solve==='power'?'powerKW':'rpm']:null;const readable=calculated==null?'':plain(calculated);$(id).value=readable.length>30?String(calculated).replace('.',','):readable;}
+ if(k==='belts'){const kind=$('b-kind').value,center=read('b-center',errors,{positive:true}),rpm=read('b-rpm',errors),powerKW=read('b-power',errors,{optional:true}),efficiency=read('b-eff',errors,{max:100});let d1=null,d2=null,pitch=null,z1=null,z2=null,selectedLength=null,selectedLinks=null;if(kind==='smooth'){d1=read('b-d1',errors,{positive:true});d2=read('b-d2',errors,{positive:true})}else{pitch=read('b-pitch',errors,{positive:true});z1=read('b-z1',errors,{min:kind==='chain'?3:1,integer:true});z2=read('b-z2',errors,{min:kind==='chain'?3:1,integer:true})}if(kind==='chain')selectedLinks=read('b-links',errors,{optional:true,positive:true,integer:true});else selectedLength=read('b-length',errors,{optional:true,positive:true});if(!errors.length)value=DriveCore.transmission({kind,d1,d2,pitch,z1,z2,center,rpm,powerKW,efficiency,selectedLength,selectedLinks})}
+ }catch(e){let id=k==='gears'?'g-z1':k==='power'?($('p-solve').value==='torque'?'p-rpm':'p-torque'):'b-center';if(k==='belts'){if(/člen|izbrana veriga/i.test(e.message)&&$('b-links').value.trim())id='b-links';else if(/dolžin|večkratnik/i.test(e.message)&&$('b-length').value.trim())id='b-length';else if(/ničelni hitrosti/i.test(e.message))id='b-rpm'}errors.push({id,missing:false,message:e.message})}return{value,errors}}
+function evaluateServo(){const errors=[],inertiaErrors=[],limitErrors=[];let inertia=null,duty=null;const load=read('s-load',inertiaErrors),motor=read('s-motor',inertiaErrors,{positive:true}),transmission=read('s-trans',inertiaErrors),ratio=read('s-ratio',inertiaErrors,{positive:true}),limit=read('s-limit',inertiaErrors,{optional:true,positive:true});if(!inertiaErrors.length)try{inertia=DriveCore.inertia({load,motor,transmission,ratio,unit:$('s-unit').value,limit})}catch(e){inertiaErrors.push({id:'s-load',missing:false,message:e.message})}if(segments.length)try{duty=DriveCore.duty(segments)}catch(e){errors.push({id:'s-load',missing:false,message:e.message})}const rated=read('s-rated',limitErrors,{optional:true,positive:true}),peak=read('s-peak-limit',limitErrors,{optional:true,positive:true}),rpm=read('s-rpm-limit',limitErrors,{optional:true,positive:true});return{value:{duty,inertia,limits:{rated,peak,rpm},limitErrors},errors:[...errors,...inertiaErrors,...limitErrors],inertiaErrors}}
+function render(){updateVisibility();let all=[];for(const k of Object.keys(names)){results[k]=k==='servos'?evaluateServo():evaluate(k);all.push(...results[k].errors);renderModule(k)}for(const input of $$('[data-number]')){const error=all.find(e=>e.id===input.id),show=error&&touched.has(input.id);input.setAttribute('aria-invalid',String(!!show));$('field-'+input.id).classList.toggle('invalid',!!show);$('error-'+input.id).textContent=show?error.message:''}renderSegments();$('summary').value=summaryText();persist();requestAnimationFrame(refreshDiagrams)}
+function setBadge(k,ready){const b=$(k+'-badge');b.className='pill '+(examples[k]?'warn':'');b.textContent=examples[k]?'Vzorčni podatki':ready?'Preračun':'Čaka na podatke';$(k+'-example').hidden=!examples[k]}
+function refreshDiagrams(){$$('div.drive-drawing').forEach(e=>{if(!e.clientWidth)return;const overflow=e.scrollWidth>e.clientWidth+1;e.tabIndex=overflow?0:-1;e.nextElementSibling?.classList.toggle('needed',overflow)})}
+window.addEventListener('resize',()=>requestAnimationFrame(refreshDiagrams));
+function setMessage(k,text,type=''){const e=$(k+'-message');e.className='calc-message '+type;e.textContent=text}
+function errorMessage(errors){const invalid=errors.filter(e=>!e.missing);return invalid.length?invalid.map(e=>e.message).join(' '):'Za izračun dopolnite: '+errors.filter(e=>e.missing).map(e=>fieldMeta[e.id]?.label).join(', ')+'.'}
+function renderModule(k){const {value:r,errors}=results[k];if(k==='servos'){renderServo(r,errors);return}setBadge(k,!!r);if(!r){metrics(k,k==='gears'?[['Prestavno razmerje','—',''],['Izhodni vrtljaji','—','min⁻¹'],['Izhodni navor','—','Nm'],['Medosna razdalja','—','mm']]:k==='power'?[['Navor','—','Nm'],['Mehanska moč','—','kW'],['Vrtljaji','—','min⁻¹'],['Kotna hitrost','—','rad/s']]:[['Izhodni vrtljaji','—','min⁻¹'],['Hitrost prenosa','—','m/s'],['Dolžina prenosa','—','mm'],['Izhodni navor','—','Nm']]);setMessage(k,errors.length?errorMessage(errors):'Dopolnite podatke.',errors.some(e=>!e.missing)?'bad':'');$(k+'-calculation').innerHTML='<p class="inline-note">Vnesite podatke ali uporabite označen primer.</p>';$(k+'-drawing').innerHTML=DriveVisuals.render(k,null,{kind:$('b-kind').value});if(k==='belts')renderBeltMethod();return}
+ if(k==='gears'){metrics(k,[['Prestavno razmerje',fmt(r.ratio),' : 1'],['Izhodni vrtljaji',fmt(r.n2),'min⁻¹','Nasprotna smer vrtenja'],['Izhodni navor',fmt(r.torque2),'Nm',r.torque2==null?'Vnesite vhodni navor.':'Po vnesenem izkoristku'],['Medosna razdalja',fmt(r.center),'mm',r.center==null?'Vnesite modul.':'Brez profilnega pomika']]);setMessage(k,r.ratio>=1?'Kinematična redukcija. Izvedljivost in nosilnost zobniškega para nista preverjeni.':'Kinematično povečanje vrtljajev. Izvedljivost in nosilnost zobniškega para nista preverjeni.');$('gears-calculation').innerHTML='<div class="formula">i = z₂ / z₁; n₂ = n₁ / i<br>M₂ = M₁ × i × η</div>'+pairs([['Pogonski / gnani zobje',r.z1+' / '+r.z2],['Prestavno razmerje',fmt(r.ratio)+' : 1'],['Vhodni / izhodni vrtljaji',fmt(r.n1)+' / '+fmt(r.n2)+' min⁻¹'],['Izkoristek',fmt(r.efficiency)+' %'],['Vhodni / izhodni navor',fmt(r.torque1)+' / '+fmt(r.torque2)+' Nm'],['Delilna premera',fmt(r.d1)+' / '+fmt(r.d2)+' mm'],['Medosna razdalja',fmt(r.center)+' mm']]);}
+ if(k==='power'){metrics(k,[['Navor na gredi',fmt(r.torqueNm),'Nm'],['Mehanska moč',fmt(r.powerKW),'kW'],['Vrtljaji gredi',fmt(r.rpm),'min⁻¹'],['Kotna hitrost',fmt(r.rpm*2*Math.PI/60),'rad/s']]);setMessage(k,'Vse tri veličine veljajo za isto gred in isto delovno točko. Ne predstavljajo električne porabe.');$('power-calculation').innerHTML='<div class="formula">P = M × n × 2π / 60000</div>'+pairs([['Mehanska moč',fmt(r.powerKW,8)+' kW'],['Navor',fmt(r.torqueNm,8)+' Nm'],['Vrtljaji',fmt(r.rpm,8)+' min⁻¹'],['Faktor pretvorbe',fmt(60000/(2*Math.PI),8)]]);}
+ if(k==='belts'){const chain=r.kind==='chain';metrics(k,[['Izhodni vrtljaji',fmt(r.n2),'min⁻¹','Prestavno razmerje '+fmt(r.ratio)+' : 1'],[chain?'Povprečna hitrost verige':'Obodna hitrost jermena',fmt(r.v),'m/s'],[chain?'Izbrana dolžina verige':'Geometrijska delilna dolžina',fmt(chain?r.chainLengthMM:r.calculatedLengthMM),'mm',chain?'Število členov × korak':'Odprt prenos, brez zdrsa'],['Izhodni navor',fmt(r.outputTorqueNm),'Nm',r.outputTorqueNm==null?'Za izračun vnesite moč in vrtljaje.':'Po vnesenem izkoristku']]);setMessage(k,chain?'Približna dolžina po številu členov. Za izbrano število členov nastavite medosno razdaljo in preverite napenjanje.':'Geometrija delilne črte. Dolžina ne vključuje montažne napetosti, raztezka ali izbora kataloške dolžine.');let rows=[['Vrsta prenosa',beltName(r.kind)],['Prestavno razmerje',fmt(r.ratio)+' : 1'],['Delilna premera',fmt(r.d1)+' / '+fmt(r.d2)+' mm'],['Vhodna medosna razdalja',fmt(r.center)+' mm'],['Vhodni / izhodni vrtljaji',fmt(r.n1)+' / '+fmt(r.n2)+' min⁻¹'],['Vhodni / izhodni navor',fmt(r.inputTorqueNm)+' / '+fmt(r.outputTorqueNm)+' Nm'],['Vhodna / izhodna moč',fmt(r.powerKW)+' / '+fmt(r.outputPowerKW)+' kW'],['Efektivna obodna sila',fmt(r.effectivePullN)+' N']];if(chain)rows.push(['Približno izračunano število členov',fmt(r.approximateChainLinks)],['Predlagano sodo število členov',fmt(r.suggestedEvenLinks,0)],['Uporabljeno število členov',fmt(r.selectedLinks,0)],['Dolžina izbrane verige',fmt(r.chainLengthMM)+' mm'],['Popravljena medosna razdalja',fmt(r.adjustedCenterMM)+' mm']);else{rows.push(['Geometrijska dolžina',fmt(r.calculatedLengthMM)+' mm'],['Objem manjšega kolesa',fmt(r.wrapSmallDeg)+' °']);if(r.kind==='timing')rows.push(['Ekvivalentno število delitev jermena',fmt(r.pitchCount)]);if(r.selectedLengthMM!=null)rows.push(['Izbrana delilna dolžina',fmt(r.selectedLengthMM)+' mm'],['Medosna razdalja pri izbrani dolžini',fmt(r.adjustedCenterMM)+' mm'])}$('belts-calculation').innerHTML=pairs(rows);renderBeltMethod();}
+ $(k+'-drawing').innerHTML=DriveVisuals.render(k,r,{kind:$('b-kind').value});}
+function beltName(kind){return{smooth:'Gladki jermen',timing:'Zobati jermen',chain:'Valjčna veriga'}[kind]}
+function renderBeltMethod(){const chain=$('b-kind').value==='chain';$('belt-method').innerHTML=chain?'<div class="formula">i = z₂ / z₁; v = p × z₁ × n₁ / 60000<br>X ≈ 2a/p + (z₁ + z₂)/2 + p(z₂ − z₁)²/(4π²a)</div><p class="inline-note">Število členov se za predlog zaokroži navzgor na sodo število. Izbrano sodo število se nato uporabi za približen preračun medosne razdalje. Povprečna hitrost ne zajema nihanja zaradi poligonskega učinka.</p>':'<div class="formula">Δ = |d₂ − d₁|; α = asin(Δ / 2a)<br>L = 2√(a² − (Δ/2)²) + π(d₁ + d₂)/2 + Δα<br>v = π × d₁ × n₁ / 60000</div><p class="inline-note">Za zobati jermen: delilni premer d = p × z / π. α je v radianih. Izbrana delilna dolžina zobatega jermena mora imeti celo število korakov.</p>'}
+function renderServo(r,errors){const d=r.duty,i=r.inertia;setBadge('servos',!!(d||i));metrics('servos',[['Efektivni navor RMS',fmt(d?.rmsTorqueNm),'Nm',d?'Časovno utežen profil':'Dodajte segmente cikla.'],['Največji absolutni navor',fmt(d?.peakTorqueNm),'Nm'],['Razmerje vztrajnosti',fmt(i?.inertiaRatio),' : 1',i?'Breme in prenos / rotor':'Dopolnite vztrajnosti.'],['Največja absolutna moč',fmt(d?.peakAbsPowerKW),'kW',d?.speedsComplete?'Iz sočasnih vrednosti':'Potrebne so hitrosti vseh segmentov.']]);const invalid=errors.filter(e=>!e.missing);let message=invalid.length?invalid.map(e=>e.message).join(' '):!d&&!i?'Dodajte profil navora in/ali dopolnite vztrajnosti. RMS in razmerje vztrajnosti se računata neodvisno.':!d?'Vztrajnost je izračunana. Za RMS dodajte časovni profil navora.':!i?'Profil navora je izračunan. Vztrajnosti še niso dopolnjene.':'Izračunan je profil konstantnih segmentov. Končna izbira zahteva preverjanje motorja, krmilnika in delovnih pogojev.';setMessage('servos',message,invalid.length?'bad':'');let rows=[];if(d)rows.push(['Trajanje cikla',fmt(d.totalTime)+' s'],['Efektivni navor RMS',fmt(d.rmsTorqueNm,8)+' Nm'],['Največji absolutni navor',fmt(d.peakTorqueNm)+' Nm'],['Največja absolutna moč',fmt(d.peakAbsPowerKW)+' kW'],['Največja pogonska moč',fmt(d.maxMotoringPowerKW)+' kW'],['Največja regenerativna moč',fmt(d.maxRegenPowerKW)+' kW']);if(i)rows.push(['Vztrajnost bremena pri motorju',fmt(i.reflectedLoadKgM2,8)+' kg·m²'],['Breme in prenos pri motorju',fmt(i.reflectedInertiaKgM2,8)+' kg·m²'],['Skupaj z rotorjem motorja',fmt(i.totalInertiaKgM2,8)+' kg·m²'],['Razmerje vztrajnosti',fmt(i.inertiaRatio)+' : 1']);$('servos-calculation').innerHTML='<div class="formula">M<sub>RMS</sub> = √(Σ Mⱼ²tⱼ / Σ tⱼ)<br>J<sub>pri motorju</sub> = J<sub>bremena</sub>/i² + J<sub>prenosa</sub></div>'+(rows.length?pairs(rows):'<p class="inline-note">Dopolnite podatke.</p>');$('servos-drawing').innerHTML=DriveVisuals.render('servos',{duty:d,inertia:i});const checks=[];if(i&&i.limit!=null)checks.push({bad:!i.withinLimit,text:`Razmerje vztrajnosti ${fmt(i.inertiaRatio)} : 1 ${i.withinLimit?'ne presega':'presega'} vneseno mejo ${fmt(i.limit)} : 1. Gre samo za primerjavo z uporabnikovim podatkom.`});if(d&&!r.limitErrors.length){if(r.limits.rated!=null)checks.push({bad:d.rmsTorqueNm>r.limits.rated,text:`RMS ${fmt(d.rmsTorqueNm)} Nm / vneseni nazivni navor ${fmt(r.limits.rated)} Nm. Preverite termične in hitrostne pogoje.`});if(r.limits.peak!=null)checks.push({bad:d.peakTorqueNm>r.limits.peak,text:`Vrh ${fmt(d.peakTorqueNm)} Nm / vnesena meja ${fmt(r.limits.peak)} Nm. Preverite dovoljeno trajanje.`});if(r.limits.rpm!=null){const complete=d.speedsComplete,max=Math.max(...segments.filter(s=>s.speed!=null).map(s=>Math.abs(s.speed)),0);checks.push({bad:max>r.limits.rpm,text:`Največja vnesena absolutna hitrost ${fmt(max)} / meja ${fmt(r.limits.rpm)} min⁻¹.${complete?'':' Del profila nima hitrosti; celoten profil ni preverjen.'}`})}}$('servo-checks').innerHTML=checks.map(c=>`<div class="limit-check ${c.bad?'bad':''}">${esc(c.text)}</div>`).join('')||'<p class="inline-note">Meje so neobvezne. Univerzalna meja razmerja vztrajnosti ni uporabljena.</p>';}
+function segmentActionButton(action,id,label,disabled=false){return `<button type="button" class="icon-btn ${action==='delete'?'danger':''}" data-segment-action="${action}" data-id="${esc(id)}" title="${label}" aria-label="${label}" ${disabled?'disabled':''}>${icon({edit:'edit',delete:'trash',up:'up',down:'down',duplicate:'copy'}[action])}</button>`}
+function renderSegments(){$('servo-list').innerHTML=segments.length?segments.map((s,index)=>`<article class="servo-row ${s.id===editing?'editing':''}"><div><b>${index+1}. ${esc(s.name)}</b><small>${fmt(s.time)} s · ${s.speed==null?'Hitrost ni vnesena':fmt(s.speed)+' min⁻¹'}</small></div><div class="servo-values"><b>${fmt(s.torque)} Nm</b><small>Konstanten segment</small></div><div class="servo-actions">${segmentActionButton('up',s.id,'Premakni navzgor',index===0)}${segmentActionButton('down',s.id,'Premakni navzdol',index===segments.length-1)}${segmentActionButton('duplicate',s.id,'Podvoji segment')}${segmentActionButton('edit',s.id,'Uredi segment')}${segmentActionButton('delete',s.id,'Odstrani segment')}</div></article>`).join(''):'<div class="empty-state">Za RMS dodajte segmente s trajanjem in navorom.</div>';$('undo-segment').disabled=!segmentHistory.length;$('clear-segments').disabled=!segments.length;}
+function copySegments(){return segments.map(s=>({...s}))}
+function saveHistory(){segmentHistory.push(copySegments());if(segmentHistory.length>25)segmentHistory.shift()}
+function cancelSegment(){editing=null;$('segment-form').reset();$('segment-title').textContent='Nov segment';$('segment-submit-label').textContent='Dodaj segment';$('cancel-segment').hidden=true;$('segment-error').textContent=''}
+function commitSegments(next,message=''){if(next.length)next=DriveCore.duty(next).segments;saveHistory();segments=next;examples.servos=false;cancelSegment();render();if(message)toast(message)}
+function nextSegmentId(){let index=1;while(segments.some(s=>s.id==='segment-'+index))index++;return'segment-'+index}
+function submitSegment(e){e.preventDefault();try{const name=$('seg-name').value.trim()||'Segment '+(segments.length+1),time=DriveCore.parseNumber($('seg-time').value,{label:'Trajanje',min:0,max:86400}),torque=DriveCore.parseNumber($('seg-torque').value,{label:'Navor',min:-1e9,max:1e9}),speed=$('seg-speed').value.trim()?DriveCore.parseNumber($('seg-speed').value,{label:'Hitrost',min:-1e9,max:1e9}):null;if(time<=0)throw Error('Trajanje mora biti večje od 0 s.');const entry={id:editing||nextSegmentId(),name,time,torque,speed},next=editing?segments.map(s=>s.id===editing?entry:s):[...segments,entry];commitSegments(next,editing?'Segment je posodobljen.':'Segment je dodan.');$('seg-name').focus({preventScroll:true})}catch(err){$('segment-error').textContent=err.message}}
+function editSegment(id){const s=segments.find(s=>s.id===id);if(!s)return;editing=id;$('seg-name').value=s.name;$('seg-time').value=plain(s.time);$('seg-torque').value=plain(s.torque);$('seg-speed').value=s.speed==null?'':plain(s.speed);$('segment-title').textContent='Urejanje segmenta';$('segment-submit-label').textContent='Shrani spremembe';$('cancel-segment').hidden=false;$('segment-error').textContent='';renderSegments();$('segment-form').scrollIntoView({behavior:'smooth',block:'center'});$('seg-name').focus({preventScroll:true})}
+function segmentAction(action,id){const index=segments.findIndex(s=>s.id===id);if(index<0)return;if(action==='edit'){editSegment(id);return}let next=copySegments();if(action==='delete')next.splice(index,1);if(action==='duplicate')next.splice(index+1,0,{...next[index],id:nextSegmentId(),name:next[index].name.slice(0,111)+' — kopija'});if(action==='up'&&index>0)[next[index-1],next[index]]=[next[index],next[index-1]];if(action==='down'&&index<next.length-1)[next[index+1],next[index]]=[next[index],next[index+1]];try{commitSegments(next)}catch(e){toast(e.message)}}
+function resetModule(k,notify=true){$$('[data-save]',$('panel-'+k)).forEach(e=>{const m=fieldMeta[e.id];e.value=m?.default||'';touched.delete(e.id)});examples[k]=false;if(k==='servos'){if(segments.length)saveHistory();segments=[];cancelSegment();$('s-unit').dataset.previous='kgcm2'}render();if(notify)toast('Vnosi modula so počiščeni.')}
+const EXAMPLES={gears:{'g-z1':'20','g-z2':'60','g-n1':'1450','g-torque':'5','g-eff':'98','g-module':'2','g-source':'VZORČNI PODATKI. Zunanji čelni par brez profilnega pomika. Izkoristek 98 % je zgolj predpostavka.'},power:{'p-solve':'torque','p-power':'3','p-rpm':'1450','p-source':'VZORČNA DELOVNA TOČKA: 3 kW mehanske moči pri 1450 min⁻¹. Ne predstavlja kataloškega modela.'},servos:{'s-unit':'kgcm2','s-ratio':'3','s-load':'18','s-motor':'2,9','s-trans':'0,2','s-source':'VZORČNI PODATKI. Navor in hitrost sta konstantna znotraj posameznega segmenta. Primer ni specifikacija konkretnega servomotorja.'}};
+const BELT_EXAMPLES={smooth:{'b-kind':'smooth','b-d1':'80','b-d2':'160','b-center':'400','b-rpm':'1450','b-power':'3','b-eff':'95'},timing:{'b-kind':'timing','b-pitch':'5','b-z1':'20','b-z2':'60','b-center':'300','b-rpm':'1000','b-power':'0,75','b-eff':'97'},chain:{'b-kind':'chain','b-pitch':'12,7','b-z1':'19','b-z2':'76','b-center':'458','b-rpm':'1450','b-power':'3','b-eff':'95'}};
+function loadExample(k){const kind=$('b-kind').value;resetModule(k,false);const data=k==='belts'?BELT_EXAMPLES[kind]:EXAMPLES[k];Object.entries(data).forEach(([id,v])=>$(id).value=v);if(k==='belts')$('b-source').value='VZORČNI PODATKI. Geometrija in izkoristek sta primer; profil in nosilnost prenosa nista izbrana.';if(k==='servos'){segments=[{id:'segment-1',name:'Obremenitev 1',time:.2,torque:5,speed:1500},{id:'segment-2',name:'Obremenitev 2',time:1,torque:1,speed:3000},{id:'segment-3',name:'Zaviranje',time:.2,torque:-3,speed:1500},{id:'segment-4',name:'Držanje v mirovanju',time:.6,torque:.5,speed:0}];$('s-unit').dataset.previous='kgcm2'}examples[k]=true;render();toast('Vstavljeni so označeni vzorčni podatki.')}
+function onEdit(e){const k=Object.keys(short).find(k=>e.id.startsWith(short[k]+'-'));if(k)examples[k]=false;if(e.dataset.number!==undefined)touched.add(e.id);if(e.id==='s-unit'){const from=e.dataset.previous||'kgcm2',to=e.value;if(from!==to){try{const pending=[];for(const id of ['s-load','s-motor','s-trans']){const input=$(id);if(input.value.trim()){const value=DriveCore.parseNumber(input.value,{min:0}),converted=value*(to==='kgm2'?1e-4:1e4);if(value!==0&&converted===0)throw Error('Vrednost je premajhna za pretvorbo.');DriveCore.parseNumber(converted,{min:0});const readable=plain(value,to==='kgm2'?-4:4);pending.push([input,readable.length>30?String(converted).replace('.',','):readable])}}for(const[input,value]of pending)input.value=value;e.dataset.previous=to}catch(err){e.value=from;toast('Enota ni zamenjana. Najprej popravite vztrajnosti. '+err.message)}}}render()}
+function showTab(k){if(!Object.hasOwn(names,k))return;active=k;$$('[data-tab]').forEach(b=>{const on=b.dataset.tab===k;b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1});Object.keys(names).forEach(x=>$('panel-'+x).hidden=x!==k);$('crumb-current').textContent=names[k];requestAnimationFrame(refreshDiagrams)}
+function state(){return{schema:'pogoni-projekt-v1',savedAt:new Date().toISOString(),active,examples:{...examples},values:Object.fromEntries($$('[data-save]').map(e=>[e.id,e.value])),segments:copySegments()}}
+function persist(){try{if($('remember').checked)localStorage.setItem('pogoni-project-v1',JSON.stringify(state()));else localStorage.removeItem('pogoni-project-v1')}catch{if($('remember').checked){$('remember').checked=false;toast('Shranjevanje v brskalnik ni na voljo. Projekt lahko prenesete kot JSON.')}}}
+function validateState(data){if(!data||data.schema!=='pogoni-projekt-v1'||!data.values||Array.isArray(data.values)||typeof data.values!=='object'||!Array.isArray(data.segments))throw Error('Datoteka ni veljaven projekt Pogoni.');const values=Object.create(null);for(const[id,v]of Object.entries(data.values)){if(!Object.hasOwn(fieldMeta,id))continue;const m=fieldMeta[id];if(typeof v!=='string'||v.length>(m.type==='number'?30:id==='notes'?3000:1600))throw Error('Neveljaven podatek: '+id);if(m.type==='select'&&!m.options.includes(v))throw Error('Neveljavna izbira: '+id);values[id]=v}let clean=data.segments.map(s=>{if(!s||typeof s!=='object'||Array.isArray(s)||typeof s.name!=='string'||s.name.length>120)throw Error('Neveljaven segment.');return{id:s.id,name:s.name,time:s.time,torque:s.torque,speed:s.speed}});if(clean.length)clean=DriveCore.duty(clean).segments;return{values,segments:clean,active:typeof data.active==='string'&&Object.hasOwn(names,data.active)?data.active:'gears',examples:Object.fromEntries(Object.keys(names).map(k=>[k,data.examples?.[k]===true]))}}
+function restore(data){const safe=validateState(data);$$('[data-save]').forEach(e=>e.value=fieldMeta[e.id]?.default||'');Object.entries(safe.values).forEach(([id,v])=>$(id).value=v);segments=safe.segments;Object.assign(examples,safe.examples);segmentHistory=[];touched.clear();$('s-unit').dataset.previous=$('s-unit').value;cancelSegment();showTab(safe.active);render()}
+async function importProject(){const f=$('import').files[0];if(!f)return;try{if(f.size>1024*1024)throw Error('Datoteka je prevelika; največ 1 MB.');restore(JSON.parse(await f.text()));toast('Projekt je odprt in ponovno izračunan.')}catch(e){toast('Uvoz ni uspel: '+e.message)}finally{$('import').value=''}}
+function toast(text){$('toast').textContent=text;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').textContent='',5500)}
+function confirmUI(title,message,action){$('confirm-title').textContent=title;$('confirm-message').textContent=message;confirmAction=action;$('confirm-dialog').showModal()}
+function download(content,name,type){const u=URL.createObjectURL(new Blob([content],{type:type+';charset=utf-8'})),a=document.createElement('a');a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),3000)}
+const LIMITS='Projektantski izračun, ne izbor ali potrditev nosilnosti komponent. Zobniki: en zunanji čelni par; geometrija z modulom samo brez profilnega pomika. Moč in navor: mehanske veličine na isti gredi pri isti delovni točki. Servo: konstantni segmenti motornega navora; RMS ni izpeljan iz vršnega navora. Moč je določena samo iz sočasnih navorov in hitrosti vseh segmentov. Vztrajnost prenosa je že na strani motorja; ni univerzalne dopustne meje razmerja vztrajnosti. Preverite navorno-hitrostne krivulje, termiko, trajanje preobremenitev, zaviranje in krmilnik. Jermeni: odprt prenos z dvema delilnima krogoma brez zdrsa. Veriga: približna geometrija in povprečna hitrost. Izbrano število členov zahteva nastavitev medosne razdalje. Efektivna obodna sila ni prednapetost, ležajna ali dovoljena obremenitev. Preverite dejanske zunanje premere, montažo in proizvajalčeve kriterije.';
+function resultLines(k){const {value:r,errors}=results[k];let lines=[examples[k]?'VZORČNI PODATKI — niso kataloški izbor.':'Projektantski preračun.'];if(k==='servos'){const d=r.duty,i=r.inertia;if(d)lines.push(`Cikel ${fmt(d.totalTime)} s; efektivni navor RMS ${fmt(d.rmsTorqueNm,8)} Nm; vrh |M| ${fmt(d.peakTorqueNm)} Nm.`,`Vrh absolutne mehanske moči ${fmt(d.peakAbsPowerKW)} kW; pogonski vrh ${fmt(d.maxMotoringPowerKW)} kW; regenerativni vrh ${fmt(d.maxRegenPowerKW)} kW.`,d.speedsComplete?'Moči so izračunane iz sočasnih vrednosti konstantnih segmentov.':'Hitrost vseh segmentov ni znana; vrh moči ni določen.');else lines.push('RMS ni izračunan — profil ni vnesen.');if(i)lines.push(`Vztrajnost bremena in prenosa na motorju ${fmt(i.reflectedInertiaKgM2,8)} kg·m²; skupaj z rotorjem ${fmt(i.totalInertiaKgM2,8)} kg·m²; razmerje ${fmt(i.inertiaRatio)} : 1.`);else lines.push('Vztrajnosti niso v celoti določene.');if(i&&i.limit!=null)lines.push(`Razmerje vztrajnosti ${i.withinLimit?'ne presega':'PRESEGA'} vneseno mejo ${fmt(i.limit)} : 1; to ni potrditev ustreznosti pogona.`);if(d&&!r.limitErrors.length){if(r.limits.rated!=null)lines.push(`RMS ${d.rmsTorqueNm>r.limits.rated?'PRESEGA':'ne presega'} vneseni nazivni navor ${fmt(r.limits.rated)} Nm; preverite termične in hitrostne pogoje.`);if(r.limits.peak!=null)lines.push(`Vršni navor ${d.peakTorqueNm>r.limits.peak?'PRESEGA':'ne presega'} vneseno mejo ${fmt(r.limits.peak)} Nm; preverite trajanje preobremenitve.`);if(r.limits.rpm!=null){const max=Math.max(...d.segments.filter(s=>s.speed!=null).map(s=>Math.abs(s.speed)),0);lines.push(`Največja vnesena hitrost ${fmt(max)} min⁻¹ ${max>r.limits.rpm?'PRESEGA':'ne presega'} vneseno mejo ${fmt(r.limits.rpm)} min⁻¹.${d.speedsComplete?'':' Del hitrosti manjka; celoten profil ni preverjen.'}`)}}if(errors.length)lines.push('Manjkajoči / neveljavni vhodi: '+errorMessage(errors));return lines}if(!r){lines.push('BREZ REZULTATA: '+errorMessage(errors));return lines}if(k==='gears')lines.push(`i = ${fmt(r.ratio)} : 1; izhod ${fmt(r.n2)} min⁻¹; izhodni navor ${fmt(r.torque2)} Nm.`,`Delilna premera ${fmt(r.d1)} / ${fmt(r.d2)} mm; medosna ${fmt(r.center)} mm; nasprotni smeri vrtenja.`);if(k==='power')lines.push(`Mehanska moč ${fmt(r.powerKW,8)} kW; navor ${fmt(r.torqueNm,8)} Nm; vrtljaji ${fmt(r.rpm,8)} min⁻¹.`);if(k==='belts'){lines.push(`${beltName(r.kind)}: i = ${fmt(r.ratio)} : 1; izhod ${fmt(r.n2)} min⁻¹; hitrost ${fmt(r.v)} m/s.`,`${r.kind==='chain'?'Dolžina izbrane verige':'Geometrijska dolžina'} ${fmt(r.kind==='chain'?r.chainLengthMM:r.calculatedLengthMM)} mm; izhodni navor ${fmt(r.outputTorqueNm)} Nm; efektivna obodna sila ${fmt(r.effectivePullN)} N.`);if(r.kind==='chain')lines.push(`Približno ${fmt(r.approximateChainLinks)} členov; predlaganih ${fmt(r.suggestedEvenLinks,0)}, uporabljenih ${fmt(r.selectedLinks,0)}; popravljena medosna ${fmt(r.adjustedCenterMM)} mm.`);else if(r.selectedLengthMM!=null)lines.push(`Izbrana dolžina ${fmt(r.selectedLengthMM)} mm; nova geometrijska medosna ${fmt(r.adjustedCenterMM)} mm.`)}return lines}
+function inputRows(k){return $$('[data-save]',$('panel-'+k)).filter(e=>!e.disabled&&!e.closest('.field[hidden]')).map(e=>[fieldMeta[e.id].label,e.tagName==='SELECT'?e.selectedOptions[0].textContent:(e.value||'Ni vneseno')+(e.dataset.number!==undefined&&e.value?' '+(['s-load','s-motor','s-trans'].includes(e.id)?($('s-unit').value==='kgcm2'?'kg·cm²':'kg·m²'):fieldMeta[e.id].unit||''):'')])}
+function summaryText(){return`INŽENIRSKI KALKULATOR POGONOV\n${new Date().toLocaleString('sl-SI')}\nProjekt: ${$('project').value}\nProjektant: ${$('author').value}\nRevizija: ${$('revision').value}\n\n`+Object.keys(names).map(k=>`${names[k].toUpperCase()}\n${resultLines(k).join('\n')}\n\nVHODI\n${inputRows(k).map(([a,b])=>a+': '+b).join('\n')}${k==='servos'?'\n\nPROFIL NAVORA\n'+segments.map((s,i)=>`${i+1}. ${s.name} | ${fmt(s.time)} s | ${fmt(s.torque)} Nm | ${s.speed==null?'Hitrost ni znana':fmt(s.speed)+' min⁻¹'}`).join('\n'):''}`).join('\n\n')+`\n\nOPOMBE\n${$('notes').value}\n\nOMEJITVE\n${LIMITS}\n\nPRIMARNI VIRI\nKHK: https://khkgears.net/new/gear_knowledge/gear_technical_reference/calculation_gear_dimensions.html\nKollmorgen: https://www.kollmorgen.com/en-us/blogs/how-to-calculate-rms-torque\nGates: https://www.gates.com/content/dam/documents-library/catalogs/light-power-and-precision-manual.pdf\nRenold: https://www.renold.com/media/165418/transmission-i-and-m-ren12-eng-10-10.pdf`}
+function table(rows){return `<table><tbody>${rows.map(([a,b])=>`<tr><th>${esc(a)}</th><td>${esc(b)}</td></tr>`).join('')}</tbody></table>`}
+function reportHTML(){return `<div class="report-content"><h1>Preračun pogonskih sklopov</h1><p>${esc(new Date().toLocaleString('sl-SI'))}</p>${table([['Projekt',$('project').value||'Brez oznake'],['Projektant',$('author').value||'Ni vnesen'],['Revizija',$('revision').value||'Ni vnesena']])}${Object.keys(names).map(k=>`<section><h2>${names[k]}</h2><p class="report-status">${esc(resultLines(k).join('\n'))}</p>${table(inputRows(k))}${k==='servos'?`<h3>Konstantni segmenti navora na gredi motorja</h3><div class="table-scroll"><table class="profile-table"><thead><tr><th>Segment</th><th>Čas [s]</th><th>Navor [Nm]</th><th>Vrtljaji [min⁻¹]</th></tr></thead><tbody>${segments.map(s=>`<tr><td>${esc(s.name)}</td><td>${fmt(s.time)}</td><td>${fmt(s.torque)}</td><td>${fmt(s.speed)}</td></tr>`).join('')}</tbody></table></div>`:''}</section>`).join('')}<h2>Opombe</h2><p>${esc($('notes').value||'Ni opomb.')}</p><h2>Metode in omejitve</h2><p>${esc(LIMITS)}</p><p>Zobniki: i = z₂/z₁, n₂ = n₁/i, M₂ = M₁iη. Moč: P[kW] = Mn2π/60000. Servo: RMS = √(ΣM²t/Σt); vztrajnost bremena na motorju = J/i². Geometrija jermena uporablja dve delilni krožnici; dolžina verige je približek.</p><h3>Viri</h3><p>KHK: https://khkgears.net/new/gear_knowledge/gear_technical_reference/calculation_gear_dimensions.html\nKollmorgen: https://www.kollmorgen.com/en-us/blogs/how-to-calculate-rms-torque\nGates: https://www.gates.com/content/dam/documents-library/catalogs/light-power-and-precision-manual.pdf\nRenold: https://www.renold.com/media/165418/transmission-i-and-m-ren12-eng-10-10.pdf</p></div>`}
+function openReport(){render();$('report-body').innerHTML=reportHTML();$('report-dialog').showModal()}
+function printReport(){render();$('print-report').innerHTML=reportHTML();window.print()}
+function textExport(){render();download('\ufeff'+summaryText(),'Pogoni-porocilo.txt','text/plain');toast('Poročilo je pripravljeno za prenos.')}
+async function copySummary(){render();try{await navigator.clipboard.writeText(summaryText());toast('Povzetek je kopiran.')}catch{$('copy-text').value=summaryText();$('copy-dialog').showModal();$('copy-text').focus();$('copy-text').select()}}
+function csvCell(value){let text=typeof value==='number'?plain(value):String(value??'');if(typeof value!=='number'&&(/^[\s\u0000-\u001f]*[=+\-@]/.test(text)||/^[\t\r\n]/.test(text)))text="'"+text;return'"'+text.replace(/"/g,'""')+'"'}
+function csvExport(){render();const rows=[['PRERAČUN POGONSKIH SKLOPOV'],['Projekt',$('project').value],['Projektant',$('author').value],['Revizija',$('revision').value]];for(const k of Object.keys(names)){rows.push([],[names[k]],...resultLines(k).map(s=>[s]),[],['Vhod','Vrednost'],...inputRows(k));if(k==='servos')rows.push([],['Segment','Trajanje [s]','Navor [Nm]','Vrtljaji [min⁻¹]'],...segments.map(s=>[s.name,s.time,s.torque,s.speed??'']))}rows.push([],['Opombe',$('notes').value],['Omejitve',LIMITS]);download('\ufeff'+rows.map(row=>row.map(csvCell).join(';')).join('\r\n'),'Pogoni-analiza.csv','text/csv');toast('CSV je pripravljen za prenos.')}
+const media=matchMedia('(prefers-color-scheme: dark)');function applyTheme(){const resolved=themePreference==='auto'?(media.matches?'dark':'light'):themePreference;document.documentElement.dataset.theme=resolved;$('theme-light').setAttribute('aria-pressed',String(resolved==='light'));$('theme-dark').setAttribute('aria-pressed',String(resolved==='dark'));document.querySelector('meta[name=theme-color]').content=resolved==='dark'?'#0e1720':'#f3f5f7';try{localStorage.setItem('pogoni-theme',themePreference)}catch{}}media.addEventListener('change',applyTheme);
+function initIcons(){const svg='<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180"><rect width="180" height="180" rx="34" fill="#172632"/><path d="M73 31h34l6 17 15 6 17 31-8 31-20 8-10 25H73l-10-25-20-8-8-31 17-31 15-6 6-17Z" fill="none" stroke="#ff955c" stroke-width="9"/><circle cx="90" cy="89" r="24" fill="none" stroke="#e3edf5" stroke-width="10"/></svg>';$('favicon').href='data:image/svg+xml,'+encodeURIComponent(svg);const im=new Image();im.onload=()=>{try{const c=document.createElement('canvas');c.width=c.height=180;const ctx=c.getContext('2d');if(ctx){ctx.drawImage(im,0,0);$('touch-icon').href=c.toDataURL('image/png')}}catch{}};im.src=$('favicon').href}
+function init(){ $('panels').innerHTML=Object.keys(names).map(buildPanel).join('');for(const id of ['project','author','revision','notes'])fieldMeta[id]={label:{project:'Projekt',author:'Projektant',revision:'Revizija',notes:'Opombe'}[id],type:'text',default:''};$$('[data-icon]').forEach(e=>e.innerHTML=icon(e.dataset.icon));$$('[data-save]').forEach(e=>{e.addEventListener('input',()=>onEdit(e));e.addEventListener('blur',()=>{if(e.dataset.number!==undefined){touched.add(e.id);render()}})});$$('[data-tab]').forEach((b,index,arr)=>{b.tabIndex=index===0?0:-1;b.onclick=()=>showTab(b.dataset.tab);b.onkeydown=e=>{const j=e.key==='ArrowRight'?(index+1)%4:e.key==='ArrowLeft'?(index+3)%4:e.key==='Home'?0:e.key==='End'?3:-1;if(j>=0){e.preventDefault();showTab(arr[j].dataset.tab);arr[j].focus()}}});$$('[data-example]').forEach(b=>b.onclick=()=>{const k=b.dataset.example;if(k==='servos'&&segments.length)confirmUI('Vstavi vzorčni servo profil','Profil in vztrajnosti bodo zamenjani z vzorčnimi podatki. Po potrebi prej shranite projekt.',()=>loadExample(k));else loadExample(k)});$$('[data-reset]').forEach(b=>b.onclick=()=>{const k=b.dataset.reset;if(k==='servos'&&segments.length)confirmUI('Počisti servo modul','Vnosi vztrajnosti in profil navora bodo počiščeni.',()=>resetModule(k));else resetModule(k)});$$('[data-power]').forEach(b=>b.onclick=()=>{$('p-power').value=plain(Number(b.dataset.power));examples.power=false;render()});$('segment-form').onsubmit=submitSegment;$('cancel-segment').onclick=()=>{cancelSegment();renderSegments()};$('servo-list').onclick=e=>{const b=e.target.closest('[data-segment-action]');if(b)segmentAction(b.dataset.segmentAction,b.dataset.id)};$('undo-segment').onclick=()=>{if(!segmentHistory.length)return;segments=segmentHistory.pop();examples.servos=false;cancelSegment();render()};$('clear-segments').onclick=()=>confirmUI('Počisti profil','Vsi segmenti bodo odstranjeni. Zadnjo spremembo profila lahko razveljavite.',()=>commitSegments([]));$('confirm-yes').onclick=()=>{const action=confirmAction;confirmAction=null;$('confirm-dialog').close();action?.()};$('confirm-dialog').addEventListener('close',()=>confirmAction=null);$$('[data-close]').forEach(b=>b.onclick=()=>$(b.dataset.close).close());$('remember').onchange=()=>{persist();toast($('remember').checked?'Projekt se shranjuje samo v tem brskalniku.':'Samodejno shranjevanje je izključeno.')};$('save-project').onclick=()=>{download(JSON.stringify(state(),null,2),'Pogoni-projekt.json','application/json');toast('Projekt JSON je pripravljen za prenos.')};$('load-project').onclick=()=>$('import').click();$('import').onchange=importProject;$('open-report').onclick=openReport;$('print-main').onclick=printReport;$('print-dialog').onclick=printReport;$('copy-btn').onclick=copySummary;$('txt-btn').onclick=textExport;$('dialog-txt').onclick=textExport;$('csv-btn').onclick=csvExport;$('help-btn').onclick=()=>$('help-dialog').showModal();$('theme-light').onclick=()=>{themePreference='light';applyTheme()};$('theme-dark').onclick=()=>{themePreference='dark';applyTheme()};try{const pref=localStorage.getItem('pogoni-theme');if(['auto','light','dark'].includes(pref))themePreference=pref}catch{}applyTheme();initIcons();let stored=null;try{stored=localStorage.getItem('pogoni-project-v1')}catch{}if(stored)try{$('remember').checked=true;restore(JSON.parse(stored));toast('Projekt je obnovljen iz tega brskalnika.')}catch{render();toast('Shranjeni projekt ni berljiv. Uporabite uvoz JSON ali vnesite podatke.')}else render();window.addEventListener('beforeprint',()=>$('print-report').innerHTML=reportHTML())}
+init();
+</script></body></html>
